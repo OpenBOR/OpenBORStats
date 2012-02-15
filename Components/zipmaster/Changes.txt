@@ -1,0 +1,281 @@
+(* TZipMaster VCL by Chris Vleghert and Eric W. Engler
+   e-mail: englere@abraxis.com
+   www:    http://www.geocities.com/SiliconValley/Network/2114
+	v1.70 by Russell Peters September 8, 2002.
+
+   Changes in 1.7.0.6:
+   - Changes by Markus Stephany for Delphi 2
+   - some new resource strings
+   Changes in 1.70:
+   - Added property DirEntry[] (returns ZipDirEntry)
+   - added defines to start of ZipMstr.pas to disable compiling support for DiskSpan & SFX
+   - hidden (from Interface) many structure definitions - moved to Implementation or "ZipStructs.pas"
+   - removed this file from the Interface section
+   - added 4 messages to language resource files, but have only updated the few I could get translated
+	LZ_OldZipDll 10605,"Attempted to load old ZipDll from ",
+	LU_OldUnzDll 10705,"Attempted to load old UnzDll from ",
+	SF_NoSFXSupport 10804,"SFX functions not supported",
+	DS_NoDiskSpan 11048,"Disk Spanning not supported"
+   - Added properties for minimum dll versions - easier to change
+   - changed Load_Zip_Dll / Load_Unz_Dll - now returns dll version
+   - Use Dll version 1.70
+   - New property - FormatErase (false)
+		false = erase files asking first if ConfirmErase true
+		true = format disk
+   - changed format to bare SHFormat
+   
+   Changes in 1.60RP2:
+   - Allow creating a new Zipfile with comment
+   Changes in 1.60RP1:
+   -Added bug fixes by Jim Turner
+   -  Renaming a file in archive will trash central if has a comment at end
+   -  Adding an empty comment may have no effect.
+   Changes in 1.60RP
+   -Fixed: unzip to wrong directory
+   -Fixed: won't look for files in current directory if RootDir is empty
+   Changes in 1.60o:
+   -Added Encrypted boolean to ZipDirEntry record. (part of ZipContents)
+	(Also added info to the help text regarding the value of 'Flag'
+   -Writing of zipfile comments is now possible.
+	(ZipDll changed also, now v1.60)
+   -Renaming of one or more zip entries in a zip archive.
+	(also with the possibility to change the datetime field)
+	(progress events are supported)
+   -Changed ConvertSFX to support the new MPV header.
+	(The old ZipSFX.bin is no longer supported!!!)
+   -Changed ConvertZIP to support the new MPV header.
+	(old header can still be read)
+   -New SFX option: SFXNoSuccessMsg
+   -New SFX property: SFXMessage
+   -New SFX property: SFXIcon
+   -SFXCaption, SFXCommandLine, SFXDefaultDir and all other options are
+	read back when converting from sfx to zip.
+   -Changed Demo1 SfxUnit.
+   -Added a rename unit to Demo1.
+   -The Zip Dll is now reentrant, multiple threads can use it at the same time.
+   -New property: AddStoreSuffixes Files with one of these extensions will be stored
+	in the zip archive others will be deflated.
+	default: assGIF+assPNG+assZ+assZIP+assZOO+assARC+assLZH+assARJ+assTAZ+assTGZ+assLHA
+   -New AddOptions: AddArchiveOnly and AddResetArchive
+   -Added: New event: OnSetNewName. While adding, the path/name can be changed.
+   -Added: ExtractFileToStream function, Extract to a Memory stream without making an intermediate file.
+	( Now position in the stream is reset.)
+   -Auto SFX Create via Add went wrong when SFXConvert returned an error.
+   -ZipDll.dll Add with Update did not work on an empty zip archive.
+   -Fixed a bug in ConvertSFX while working with sfxblksize.
+   -Changed the writing of the zip archive comment, now also without using the zip dll.
+   -Added a new Event OnNewName this will be called when reading the Zip's directory
+	and gives you the opportunity to fill for example a ListView. In previous versions
+	you had to wait for the OnDirUpdate event, which is still supported.
+   -Added new property PasswordReqCount, used to set the number of times a password will be
+	requested through the OnPasswordError event.
+   -Added a new Event OnPasswordError, this will be called when the given Password is wrong or
+	not given at all.
+	The UnZip dll itself will not ask for a password anymore when the components version
+	number >= 1.6!!!
+   -Added a new public method GetPassword which replaces the InputBox function used earlier.
+	Uses now language dependent Resource text as output and while typing the password, a '*'
+	will be shown.
+   -Checked for and fixed a few memory leaks in the dll's and component.
+   -Added the new event OnCRC32Error. On a CRC error it is now possible to skip the extraction of
+	that file
+   -Added the new property FSpecArgsExcl, used to specify file arguments which should be excluded
+	(i.e. not zipped) during a zip operation. (like *.tmp, *.bak)
+   -Added the new event OnExtractOverwrite, is complementary to the Extract Option ExtrOverwrite.
+   -Added the new event OnExtractSkipped, called when a file is skipped during extraction with the
+	reason why it is skipped.
+   -Added property UseDirOnlyEntries bool, Do not include Directory only entries from the zip contents
+  list. (See also AddOption AddSeparateDirs ) Default false;
+   -Made it D2 comaptible.
+   -Made it D3 compatible. Thanks to Dejan Maksimovic.
+   -Added the new function CopyZippedFiles( DestZipMaster: TZipMaster; DeleteFromSource: boolean; OverwriteDest: OvrOpts ): Integer;
+	(Used to copy zipped contents from one zip file to another without extracting and re-zipping.)
+   -Added a new event OnCopyZipOverwrite used in combination with the new function CopyZippedFiles.
+   -Added a new member 'ExtraData' to the ZipDirEntry record (needed for the function CopyZippedFiles.)
+   -EraseFile() now prepends the full path from the current drive/dir if filename did not have one.
+	(FOF_ALLOWUNDO does not seem to work when there is no full path!?)
+   -Added to version 1.60K to support recursion and encryption on a FFileSpec basis.
+	Regardless of what AddRecurseDirs is set to, a '>' will force recursion, and a '|' will stop recursion.
+	(RCV + Bob Dolan), newest ZipDll needed too.
+   -Also it is possible the specify a password after the FFileSpec, separated by a '<'
+	If there is no other text after the '<' then, an existing password, is temporarily canceled.
+   -Added new event OnGetNextDisk, used while diskspanning if assigned.
+	parameters: ( System::TObject *Sender, int DiskSeqNo, int DiskTotal, AnsiString Drive, bool &Cancel )
+	(Requested by João Lira)
+   -Added new event OnStatusDisk, used while diskspanning if assigned.
+	enum ZipDiskStatusEnum		{ zdsEmpty, zdsHasFiles, zdsPreviousDisk, zdsSameFileName, zdsNotEnoughSpace };
+	typedef Set<ZipDiskStatusEnum, zdsEmpty, zdsNotEnoughSpace> TZipDiskStatus;
+	enum TZipDiskAction			{ zdaOk, zdaErase, zdaReject, zdaCancel };
+	parameters: ( System::TObject *Sender, int PreviousDisk, AnsiString PreviousFile, TZipDiskStatus Status, TZipDiskAction &Action )
+	(Requested by Tim Borman)
+   -Added new event OnFileComment, used to set file comments while adding files to an archive.
+	parameters: ( System::TObject *Sender, String ForFile, String &FileComment, bool IsChanged )
+   -Added the new method MakeTempFileName, to assist in the internal flow of ZipMaster, but it is public.
+   -Added the new property RootDir.
+   -Added the new AddOption AddVolume.
+   -Fixed bug in SFX file DialogSel, function SelectDir, found by Lucjan Lukasik.
+   -Fixed error: Fatal error in ZIPDLL.DLL ( now version 1.6010 )
+   -Sortgrid extended with CTRL click to select single rows.
+   -GetAddPassword() now returns an empty string in case the passwords did not match.
+   -The Unzip Dll now support changing the filenames on extract (DLL v1.6016)
+   -Added the new property DirOnlyCount.
+   -in version 1.60M:
+   -Added method void AddStreamToFile( String FileName, long FileFlags ); Dll version 1.6015
+   -Added method TZipStream *AddStreamToStream( TZipStream *InStream ); Dll version 1.6015
+   -Added method ExtractStreamToStream( TMemoryStream *InStream, unsigned long OutSize ); Dll version 1.6023
+   -Removed the Exclamation-Mark necessity in the Filename for SFXAutorun when the name is Setup.exe
+   -When using SFX and an .inf file this file is now executed within the extract directory.
+   -A 'Cancel all' and 'Abort' button in the password dialog.
+   -Implement Recycle to the recycle bin when moving files.
+	(When adding files with AddOptions set to 'move'.)
+   -Added RAR, ACE, CAB, GZ, GZIP and JAR to the AddStoreSuffix property.
+   -Changed the handling of RootDir and ExtrBaseDir, SetCurrentDir is no longer used because this may
+	cause problems when using threads.
+
+   To change:
+ -Translation of the new Resource Messages.
+ -Implement Cancel property in DiskSpan
+
+   And ideas for changing/adding in version 1.7:
+	-Borland recommends to give every Type a name starting with T....
+	 Change you current naming convention from AddOptsEnum to TAddOptsEnum
+	 same for AddOpts and so on).
+   -Warning/skipping a file when it is opened by an other application for writing while adding.
+	new event OnAddInUse.
+   -UNC support everywhere.
+   -SFX diskspan reading.
+   -SFX codepage support? Ansi compare functions? Portuguese change?
+   -SFX extract path from registry or temp dir change into user defined if regkey is missing.
+   -A new event for some errors/warnings in the zipdll like:
+	name in zip file repeated: : INSTALL.TXT
+	first full name: C:\TestMap1\TestMap2\INSTALL.TXT
+	second full name: C:\TestMap1\INSTALL.TXT
+	bad zip options specified
+   -MinDate, MaxDate, MinSize, MaxSize filtering properties.
+   -OCX build of zip
+   -SortGrid helpfile
+
+  Changes in v1.52n, v1.60n:
+   -For spanned archives on the HDD it would display that there was an error reading the
+	zip file on the third disk. This was because I have set the MaxArchiveSize to 2Mb
+	exactly and I’m reading in 8Kb chunks. This would cause the final read on the 2nd disk
+	to fall on the EOF marker making SizeR equal 0. WriteJoin would then cause the error.
+   -The ZipFilename is now changed to the name of the last 'disk' in the set when using
+	diskspanning and the disk is not a diskette.
+
+  Changes in v1.60m:
+   -In List() the read of the extra field was put at the wrong place.
+   -in ReadSpan a Zip archive comment was not handled as it should have been. bug solved
+	thanks to Tim Borman.
+   -Replaced (wait/default)cursor setting with a dynamic version, so the application
+	program won't notice it, idea Danail Traichev.
+   -Moved DLL handles and function pointers variables to ZipBuilder private in stead
+	of as global variables. This should avoid problems with automatic DLL loading and
+	unloading when using threads.
+   -OnExtractOverwrite event added a DirIndex parameter.
+   -FileExists replaced by a local function to prevent problems with ZipMagic when
+	you do NOT set the exception program option in ZipMagic. Should also be somewhat
+	faster. There is still a problem with ZipMagic because FileAge is used in
+	DiskSpanning and this can't be replaced by GetFileAttributesEx because W95 does
+	not know of this function. (proposal: Patricio Moschcovich)
+   -Added HowToMove to the ZipDll, when using the Add Move option Undoing is preserved
+	just as in the component.
+
+  Changes in v1.52m:
+   -AppendSlash() did not check on a 0-length string which could cause an
+	access violation in the RootDir property. Bug found thanks to Richard Hollerich.
+   -in ReadSpan a Zip archive comment was not handled as it should have been. bug solved
+	thanks to Tim Borman.
+   -Moved DLL handles and function pointers variables to ZipMaster private in stead
+	of global variables. This should avoid problems with automatic DLL loading and
+	unloading when using threads.
+   -Added HowToMove to the ZipDll, when using the Add Move option Undoing is preserved
+	just as in the component.
+
+  Changes in v1.52l:
+   -The event OnSetNewName did not work due to a error in the callback data
+
+  Changes in v1.52k:
+   -Fixed a bug in the ZipDll that prevented the use of the Add option AddForceDOS.
+   -Fixed a bug in the ZipDll that prevented the use of the Add option AddZipTime.
+   -Fixed a bug in the SFX source code, re-compilation always resulted in the message
+	Error reading Archive File. Found thanks to Patrick Gentemann.
+   -Added a new Read Only property VersionInfo.
+   -Fixed the message: 'Error reading ZipMaster1.AddStoresSuffixes: Property does not exist.'
+	when opening some demo projects.
+   -Moved the assignment of the FErrCode and FMessage one line up in the function ShowExceptionError
+	This way the property ErrCode can be used inside the OnMessage event handling. (The parameter
+	ErrCode in this event is sometimes 0 while ErrCode is not.)
+
+  Changes in v1.52j:
+   -Changed most StrPCopy functions to StrPLCopy because of a bug in BCB1, Delphi2 and
+	Delphi3 in these environments max. 255 characters are copied, reported by Tim Borman.
+   -Added a line to WriteSpan to correctly read and write an existing archive comment.
+	Found by Tim Borman.
+
+  Changes in v1.52i:
+   -Bug fix in List, ReadSpan to read to correct data when a disk change was neccessary.
+	This prevented to open and read a spanned archive which had it's header data split
+	across multiple disk(files). Found thanks to Alexander Hofmann.
+   -Moved FreeLibrary which wasn't always called in DiskFreeAndSize.
+   -Added a SetErrorMode because it wasn't always reset in IsDiskPresent.
+   -Changed the function DirExists a little in case the given dir was an empty string. [Range error]
+	Found by Thomas.
+   -Added some properties to the SortGrid VC and as result removed some code from the demos.
+	Idea by Andrea Gnesutta.
+   -A new constant UNZIPVERSION 160, now Zip and Unzip dll may have different version numbers.
+
+  Bug Fix in v1.52h:
+   -In the function CheckForDisk in a format specifier '/n...' was used in stead of #13#10.
+	thanks to Greg Nixon.
+   -In the function WriteSplit a statement was missing that incremented the disk to use.
+	This was most likely to happen when zipping to a large spanned archive, but also smaller
+	archives could suffer from this this problem.
+	thanks to Jim Hoops, Alexander Hofmann.
+
+  Bug Fix in v1.52g:
+   -Small addition to IsRightDisk function to make it possible to open files with UNC prefix.
+	(this should have been there in the e version but somehow it did not.)
+   -Fixed a memory leak in CheckIfLastDisk thanks to Greg Lorriman.
+
+  Version f Added Russian language support.
+
+  Bug Fix and change in v1.52e:
+   -Better support for harddisks > 2Gb and UNC names.
+	(Replacement function for DiskFree and DiskSize functions this also
+	 prevented opening files given with an UNC name.)
+
+  Bug Fix in v1.52d:
+   -Reading of spanned disks written by WinZip did not work.
+
+  Bug Fixes in v1.52c:
+   -The messages DS_NotaDrive and DS_DriveNoMount expects a string as
+	parameter but did in fact get an Integer and as result you would get
+	a message: UnKnown error in function ReadSpan() or WriteSpan()
+	Now there is an new exception constructor for these messages.
+	Found by Tim Borman
+   -When there was no disk in the drive no question was asked to put
+	one in, instead an exception was raised an the spanning was aborted.
+	Found by Tim Borman
+   -If the size of the disk is not yet known there was still a question
+	to put disk X of Y in the drive. Now this is changed in just Disk X.
+	Not really a bug but annoying, Found by Tim Borman
+   -The copy stage of the diskspan process is now a little faster.
+	Thanks to Tim Borman
+   -The function DiskSize returns in D4 an Int64 instead of an Integer.
+	found by Sebastian Hildebrandt
+   -Fixed a bug in the zip dll while handling slashes, this sometimes
+	lead to a Fatal Error in ZipDLL.DLL: abort exception.
+	Thanks to Sebastian Hildebrandt and Matthew Kent.
+
+   Bug Fix in v1.52b:
+   -While using DiskSpan in encrypted mode an error 'A Local Header
+	Signature is wrong' or 'A Central Header Signature is wrong' was given.
+	Found by Sam Chan.
+
+   Bug Fixes in v1.52a:
+   -Changed the search direction for the EOC record.
+	(If there was a zip file stored in a ziparchive within the last 64K
+	 the wrong archive directory was shown.)
+   -Diskspanning with formatting with ConfirmErase = True did not work.
+
