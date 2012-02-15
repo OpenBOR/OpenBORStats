@@ -6,16 +6,19 @@ interface
 
 uses
   Windows, SysUtils, Classes, Registry, IniFiles,
-  Blowfish, RC2, Base64, JclMime, Graphics, forms, JvRichEdit;
+  //Blowfish, RC2, Base64,
+  JclMime, Graphics, forms, JvRichEdit;
 
 procedure MatSecCallCode(FileName:String);
 function MatSecTrans(Ch: Char; K: Byte): Char;
 function MatSecVigenereCipherEncrypt(const S, AKey: string): string;
 function MatSecVigenereCipherDecrypt(const S, AKey: string): string;
+(*
 Function MatSecBlowFishEncrypt(S, aKey:String):String;
 Function MatSecBlowFishDecrypt(S, aKey:String):String;
 Function MatSecRC2Encrypt(S, aKey:String):String;
 Function MatSecRC2Decrypt(S, aKey:String):String;
+*)
 Function MatLst2Str(lst:TStringList):Widestring;
 //------------------------------------------------------------------------------
 // UUEncoding and decoding utilities:
@@ -349,6 +352,7 @@ begin
    End;
 end;
 
+(*
 Function MatSecBlowFishEncrypt(S, aKey:String):String;
 var
   Cipher: TDCP_blowfish;
@@ -404,7 +408,7 @@ begin
   Cipher.Free;
   Result := s;
 End;
-
+*)
 Function MatLst2Str(lst:TStringList):Widestring;
 Var
   aStream : TMemoryStream;
