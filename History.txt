@@ -1,0 +1,252 @@
+V0.51
+-----
+Fixed another Bug that would associate directories/files/scripts that where called attack,burn,shock etc... and would be considered as a attack.
+Can import/extract openbor pak files now. "File>>Import Pak"
+Updated system file.
+
+"DonateWare".
+If you like this app, please consider donating. Goto < http://sites.google.com/site/totaltextcontainer/donate > Thank You.
+
+V0.50 (2011-09-14)
+-----
+Fixed another bug that would associate script commands like "performattack, ani_attack, ani_burn etc.." as attack box's in the editor.
+Added set Off-Set via mouse.
+Fixed a Bug that would loose newly created animations.
+
+V0.49
+-----
+Fixed a Bug that would associate directories/files that where called attack,burn,shock etc... and would be considered as a attack.
+Landrame won't be considered to be a frame now.
+Fixed RangeY display. (Was very wrong)
+
+V0.48
+-----
+Add "Level Hud Designer". Easily design the placement of players health,icons,bars etc....
+
+V0.47
+-----
+Added entity overlay option in character editor. Usefull if you would like to align projectile's, special fx. etc.....
+Updated "Test factory" to include Entity dependencies. So if a entity has a "load" (projectile) command in its header it will automatically add it into the models.txt file.
+Fixed a bug that could cause problems with the "@cmd" command.
+Fixed a bug that would dublicate attacks in a frame.
+
+V0.46
+-----
+Added entity icons in the main menu.
+Added "File in Use checker". Will scan the entire project directory and check if its being used in game.
+Few fix's.
+.............Note to self check strrename function that it does only a single remove where needed..................
+
+V0.45
+-----
+Fixed search in glossary tree. Press return to search the next similar item.
+If you start editing in the editor and its a blank line then it will do a search in the glossary for the nearest match. Once type just press right arrow to keep searching.
+If you click on a frame in the frame list of the entity editor and you are in the text editor mode it will find the frame for you inside the text area.
+
+V0.44
+-----
+Shows a visual representation while adding bbox/attackbox via the mouse.
+Improved mugen importer. Will auto rename know animation types.
+Fixed draw layer in level design. report by "bWWd"
+Fixed open txt button file in character editor.
+Fixed another "@script and  @end_script" error report by "bWWd"
+Will do a search in the glossary tree while typing. (so if you start typing "atchain" then it will start searching for it)
+
+
+V0.43
+-----
+Added function to draw "Body and Attack box's" using mouse, at the moment it doesn't show the box while dragging. Either click on "add/set bbox" or press "Ctrl" for bodybox and "Shift" for attack when your mouse is over the entity draw screen.
+Added button that will execute the currently selected project's associated openbor.exe and a drop down to view the log files.
+Pressing CTRL+SHIFT+(left arrow/right arrow) on the bbox edit box's won't give a pop up.
+Added more shortcut keys.
+Complete rewrite of the mugen character importer. (Distinguish's frame types better now and also imports the offset)
+Updates to the glossary system.
+Various code improvements.
+
+V0.42
+-----
+Added option to directly edit a entity from the level editor. (Right click on a entity item in the glossary tree)
+Added: Can drag & drop entities from the glossary tree to the stage in the level editor.
+Added rangeX box to be shown in the frame list in the character editor.
+Added more shortcut keys (Helps when editing between Entities's and Level's).
+Fixed Test factory (openBor would open but it didn't run the game ....... but does now).
+Fixed the stage designer's reload/redraw feature.
+Updated some functions in the glossary.
+Various code improvements.
+
+
+V0.41
+-----
+"Glossary System - Auto Code Scripts" updates
+The glossary system has been updated to handle codeScripts.
+Want to use codeScripts but is it to complicated to figure out. Not a problem. The Glossary engine can easily insert scripts into any character to help make use of openbors powerful codeScript engine and let you do things that you otherwise would never be able to.
+No need to worry about the crazy back end world of codeScripts, what things mean or even where to put them, openBor stats will handle everything for you.
+
+"codeScript Guru's"
+If you know how to codeScript then you can easily add more codeScripts with the powerfull and simple to use System Editor.
+Read the Script Creator file supplied on how and what todo.
+
+PS! Only Animation Scripts supported so far!!!
+
+V0.40
+-----
+Added "Link files" to the image Importer in the Character Editor and also renamed other import features.
+
+V0.39
+-----
+Fixed a bug that wouldn't save properly when creating a new frame in the character editor.
+Various code improvements.
+
+V0.38
+-----
+Added staircase builder to the level editor (Right click anywhere on the map).
+Gives a warning if a space has been found in the project directory.
+
+V0.37
+-----
+Stage viewer updates..
+  Supports fglayer.
+  Works with xRepeat of the bgLayer/fglayer command.
+  Fixed a crash bug regarding front panels.
+
+V0.36
+-----
+Fixed didn't save on exit bug in the character editor.
+
+V0.35
+-----
+Walls, holes and platforms are properly drawn now.
+Fixed a few minor bugs.
+
+V0.34
+-----
+Fixed error on anim types without any frames.
+System Editor Tree can be highlighted when typing on.
+No need to restart once saving in the system editor.
+Fixed a bug that didn't load png's in the quick preview throughout the application.
+Minimises to tray now.
+
+V0.33
+-----
+Fixed extensionless image loading. Only supports gif and png. More can be added on request.
+Fixed some floating point bugs.
+
+V0.32
+-----
+Fixed "center image" location in character editor.
+Fixed image re-sizing bug.
+Various small improvments.
+
+V0.31
+-----
+Fixed a bug that wouldn't load non extensioned images in the stage viewer.
+Supports more levels now.
+Added image previews in the editor quick preview for "spawn" entries.
+You can press CTRL+Left arrow/Right arrow to copy previous/next frame setting in the character editor now. If you have your cursor on a attack box (lets say x) then you press Crtl+Left arrow then it will copy the previous frames details.
+Fixed a bug that would cause a error message if "spawn" enties where in uppercase letters.
+Added platform to the character editor.
+
+V0.30
+-----
+Added support for holes and walls in the stage viewer.
+
+V0.29
+-----
+Updates to the character editor
+  Fixed the attack box to be able to handle up to attack20. This also fix's a nasty bug when editing anything other than "attack" through the character editor.
+  Added Blast, Shock, Burn, Freaze and steal to attack box detection and editing.
+  Fixed a bug that wouldn't update the location of the offset picture in certain conditions.
+  Various small improvements.
+  
+V0.28
+-----
+Fixed a bug that didn't pick up the last set in the level.txt file. So if you only had one set then it wouldn't appear in the main tree list.
+Some code optimisations.
+Delay and Loop in character editor auto adds them selves now.
+Variable "entity" in the system editor works now.
+
+V0.27
+-----
+Stage viewer updates
+  Can handle multiple bgLayers now.
+  Background/bglayers handles x/y Positioning and x/y spacing.
+  Refresh background has been fixed.
+  Basic Entity placements.
+
+
+V0.24
+-----
+Various bug fixes.
+Added range to the character editor.
+
+V0.23
+-----
+
+"Character Editor" updates
+Can select from various offSet types.
+Added large offset. Very usefull.
+Fixed Unblockable, NoFlash bug.
+Fixed set to null feature.
+Various bugs fixed.
+
+V0.22
+-----
+
+"Glossary System" updates
+Can place items in groups now.
+
+"Blank Extension support"
+openBor Stats now supports loading images that contain no extension.
+
+Additional "Image Formats"
+With the new imaging engine, openBor Stats now supports additional image formats that also includes PNG.
+
+"Character Editor" Updates
+You can import and strip animated gifs and openBor Stats will auto add them into the Entities directory and also populate the needed borScript and also include the delay values used in the gif.
+You can import selectable image files now.
+You can import directories now.
+Added "Focus of Offset" to the gif position. usefull for testing if the image is offsetted properly.
+
+"Entity Load" Improvements
+Fixed a couple of bugs regarding Entities with scripts.
+
+"Test Factory" update
+No more prompting to overwrite files anymore.
+Can copy scripts aswell now.
+Has a button to view the error log.
+Fixed a bug that wouldn't copy all files on certain occasions.
+
+V0.20
+-----
+"Test Factory"
+Easily test a entity in a Tiny prebuild basic package.
+This can help you test if the character is working properly and if the character is preforming the way you want it to, giving a quick way of tweaking him.
+Read the readme on how to use it (just a couple of left clicks and one right click).
+
+"Text Pad"
+The text pad has been enhanced to handle various other borScript files in openBor.
+It supports models.txt, levels.txt, level design files and character files.
+
+"Glossary system"
+Glossary system has been updated to work with all the new text files but the descriptions have not yet been populated.
+
+"Organised Project"
+The main menu has been replaced with  a more sophisticated tree system that can display information in a organised manner.
+
+
+V0.17
+-----
+"Character editor"
+A enitity editor has been added that can easily help you pickup any bBox type errors.
+
+"Text Pad"
+A powerful and functional editor has been added to help simplify character editing using the traditional notepad route but with plenty of usefull features that can show you details such as loading a picture when clicking on a remap line.
+You can double click or press ctrl+return on any line and it will give you a detailed description on what that command does and how to use it.
+
+"Glossary System"
+No need to know any commands used by openBor or where each command should go anymore.
+The Glossary system shows you all possible commands that can be used no matter what part of the entity your editing.
+Missing Glossary commands, no problem. Just add or modify one as you see fit in the System Editor giving you the ability to change features as openBor changes.
+
+"Color Coding"
+Many area uses different colors to help easily identify certain features such as if a anim block contains a script or not.

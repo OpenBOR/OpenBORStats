@@ -1,0 +1,3 @@
+Need Testing.....Must check for file directory if it equals attack names. IE shock, burn etc....
+Need Testing....."landframe" gets counted as "frame" when clicking on a frame image.
+Need Testing.....Range min max start from the offset. I got it working as it was a attackbox bbox
