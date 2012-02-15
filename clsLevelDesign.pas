@@ -108,19 +108,22 @@ end;
 procedure TLevelDesign.getAt;
 Var
   i, iFound : integer;
-  s, sFound : string;
+  s, sFound, stripped : string;
 begin
   i := 0;
   atMax := 0;
   atList.Clear;
   while i < LevelDesignfileList.Count do Begin
     s := strClearAll( LevelDesignfileList.Strings[i] );
-    if PosStr('at',s) > 0 then Begin
+    if ((length(s) > 2) and (s[1] = 'a') and (s[2] = 't')) then Begin
       try
-        iFound := StrToInt( strip2Bar('at',s) );
-        if iFound > atMax then
-          atMax := iFound;
-        atList.Add( IntToStr(iFound) );
+        stripped := strip2Bar('at',s);
+        if(stripped[1] in ['0' .. '9']) then begin
+          iFound := StrToInt( stripped );
+          if iFound > atMax then
+            atMax := iFound;
+          atList.Add( IntToStr(iFound) );
+        end;
       except
       end;
     end;
