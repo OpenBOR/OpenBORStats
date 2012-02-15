@@ -187,6 +187,7 @@ object frmLevelDesign: TfrmLevelDesign
       Top = 0
       Width = 41
       Height = 41
+      Color = clBlack
       DragMode = dmAutomatic
       TabOrder = 0
     end
