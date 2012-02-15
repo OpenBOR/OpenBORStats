@@ -1,0 +1,21 @@
+On Tue, 20 Jul 2004 18:47:37 GMT, "Martin Harvey (Demon Account)"
+<martin@_nospam_pergolesi.demon.co.uk> wrote:
+>On Tue, 20 Jul 2004 09:19:37 -0400, nobody@noplace.not wrote:
+>>To activate this code, just rename the GETMEM.INC file in the borland
+>>RTL/system directory to GEMEM.INC.OLD and drop the above in as GETMEM.INC.
+>>You will have to rebuild the RTL using the provided makefile to activate the
+>>new manager.
+>
+>Very nice, and I'd love to, but I don't have the RTL source. Perhaps
+>when the next Win32 delphi comes out, I'll buy a decent version!
+You can also make it into a unit and install it as a replacement memory
+manager on a per-application basis. (See Below) As long as I've not made
+any mistakes, the initialization code makes it replace Borland's MM
+automatically. Just make it the first item in your application's Uses
+clause. (i.e. in the DPR file).
+It won't be quite as efficient this way but if you don't have the source,
+you don't have much choice.
+>BTW - that looks fairly thread safe to me :-)
+It's as thread safe as windows... All it really does is pass the calls on to
+windows. There's no intelligence in it at all. Intelligence isn't needed
+here as Windows already provides everything you need.
