@@ -462,7 +462,7 @@ begin
   if DirectoryExists(DataDir) then Begin
     ses.dataDirecotry := DataDir;
     //Create Entity columns
-    createEntity(ExtractFileDir(Application.ExeName)+'\Entity header.txt');
+    createEntity(ExtractFileDir(Application.ExeName)+'\Config\Entity header.txt');
     //Search for and populate all Entity files
     JvSearchFiles1.FileParams.FileMasks.Text := '*.txt';
     JvSearchFiles1.RootDirectory := DataDir + '\chars\';
