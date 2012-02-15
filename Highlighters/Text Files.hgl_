@@ -1,0 +1,292 @@
+<UniHighlighter>
+ <ImportantInfo>
+  ******* Please read carefully *************************
+  * Please, make any changes in this file very carefuly!*
+  * It is much more convinient to use native designer!  *
+  *******************************************************
+ </ImportantInfo>
+ <Info>
+  <General>
+   <Name>Text Files</Name>
+   <FileTypeName>TXT LNG</FileTypeName>
+   <Layout></Layout>
+  </General>
+  <Author>
+   <Name>StayAtHome, Vitalik</Name>
+   <Email>stayathome@nm.ru</Email>
+   <Web>www.stayathome.nm.ru</Web>
+   <Copyright>© 2004</Copyright>
+   <Company></Company>
+   <Remark>Some changes by Vitalik</Remark>
+  </Author>
+  <Version>
+   <Version>1</Version>
+   <Revision>3</Revision>
+   <Date>38131,7669410532</Date>
+   <Type>Beta</Type>
+  </Version>
+  <History>
+  </History>
+  <Sample>
+   <S>Данный плагин предоставляется &qt;как есть&qt; . Автор не дает гарантий,</S>
+   <S>что плагин будет отвечать всем ожидаемым требованиям.</S>
+   <S></S>
+   <S>History</S>
+   <S>+ Добавлено</S>
+   <S>- Исправлено</S>
+   <S>* Изменено/удалено</S>
+   <S>-------</S>
+   <S></S>
+   <S>2.0 beta 2</S>
+   <S>[*] Изменен формат и расположение INI файла цветовых схем</S>
+   <S>[*] Восстановлен перенос строк (WordWrap)</S>
+   <S>[+] Добавлены горячие клавиши. Некоторые работают только при просмотре.</S>
+  </Sample>
+ </Info>
+ <SchemeIndex>2</SchemeIndex>
+ <Schemes>
+  <S>StayAtHome</S>
+  <S>FAR Colorer</S>
+  <S>Vitalik</S>
+  <S>Twinight</S>
+ </Schemes>
+ <Range Name="Root">
+ <Attri>
+  <Back>16777215</Back>
+  <Fore>0</Fore>
+  <Style></Style>
+  <ParentForeground>False</ParentForeground>
+  <ParentBackground>False</ParentBackground>
+ </Attri>
+ <Attri>
+  <Back>8388608</Back>
+  <Fore>16776960</Fore>
+  <Style>B</Style>
+  <ParentForeground>False</ParentForeground>
+  <ParentBackground>False</ParentBackground>
+ </Attri>
+ <Attri>
+  <Back>-2147483643</Back>
+  <Fore>0</Fore>
+  <Style></Style>
+  <ParentForeground>False</ParentForeground>
+  <ParentBackground>False</ParentBackground>
+ </Attri>
+ <Attri>
+  <Back>0</Back>
+  <Fore>16777215</Fore>
+  <Style></Style>
+  <ParentForeground>False</ParentForeground>
+  <ParentBackground>False</ParentBackground>
+ </Attri>
+ <OpenSymbol></OpenSymbol>
+ <OpenSymbolFinishOnEol>False</OpenSymbolFinishOnEol>
+ <CloseSymbol></CloseSymbol>
+ <CloseSymbolFinishOnEol>False</CloseSymbolFinishOnEol>
+ <OpenSymbolStartLine>False</OpenSymbolStartLine>
+ <CloseSymbolStartLine>False</CloseSymbolStartLine>
+ <DelimiterChars>!&qt;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^`’{|}~“”</DelimiterChars>
+ <OpenSymbolPartOfTerm>False</OpenSymbolPartOfTerm>
+ <CloseSymbolPartOfTerm>False</CloseSymbolPartOfTerm>
+ <CloseOnTerm>False</CloseOnTerm>
+ <CloseOnEol>False</CloseOnEol>
+ <AllowPredClose>False</AllowPredClose>
+ <CaseSensitive>False</CaseSensitive>
+ <KW Name="Symbols">
+  <Attri>
+   <Back>16777215</Back>
+   <Fore>128</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>8388608</Back>
+   <Fore>16777215</Fore>
+   <Style>B</Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>-2147483643</Back>
+   <Fore>16711680</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>0</Back>
+   <Fore>16776960</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <W>!</W>
+  <W>#</W>
+  <W>$</W>
+  <W>%</W>
+  <W>&amp;</W>
+  <W>*</W>
+  <W>+</W>
+  <W>,</W>
+  <W>-</W>
+  <W>.</W>
+  <W>/</W>
+  <W>:</W>
+  <W>;</W>
+  <W>=</W>
+  <W>?</W>
+  <W>@</W>
+  <W>\</W>
+  <W>^</W>
+  <W>`</W>
+  <W>|</W>
+  <W>~</W>
+ </KW>
+ <KW Name="Brackets">
+  <Attri>
+   <Back>16777215</Back>
+   <Fore>8388863</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>8388608</Back>
+   <Fore>16777215</Fore>
+   <Style>B</Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>-2147483643</Back>
+   <Fore>16711680</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>0</Back>
+   <Fore>16776960</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <W>[</W>
+  <W>]</W>
+  <W>{</W>
+  <W>}</W>
+  <W>&lt;</W>
+  <W>&gt;</W>
+  <W>(</W>
+  <W>)</W>
+ </KW>
+ <Set Name="Letters">
+  <Attri>
+   <Back>16777215</Back>
+   <Fore>8388608</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>8388608</Back>
+   <Fore>16776960</Fore>
+   <Style>B</Style>
+   <ParentForeground>True</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>-2147483643</Back>
+   <Fore>0</Fore>
+   <Style></Style>
+   <ParentForeground>True</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>0</Back>
+   <Fore>16776960</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <S>ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz</S>
+ </Set>
+ <Set Name="Numbers">
+  <Attri>
+   <Back>16777215</Back>
+   <Fore>16711680</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>8388608</Back>
+   <Fore>65280</Fore>
+   <Style>B</Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>-2147483643</Back>
+   <Fore>128</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>0</Back>
+   <Fore>16711935</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <S>0123456789</S>
+ </Set>
+  <Range Name="Strings &qt;..&qt;">
+  <Attri>
+   <Back>16777215</Back>
+   <Fore>32768</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>8388608</Back>
+   <Fore>65535</Fore>
+   <Style>B</Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>-2147483643</Back>
+   <Fore>0</Fore>
+   <Style>B</Style>
+   <ParentForeground>True</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <Attri>
+   <Back>0</Back>
+   <Fore>65535</Fore>
+   <Style></Style>
+   <ParentForeground>False</ParentForeground>
+   <ParentBackground>True</ParentBackground>
+  </Attri>
+  <OpenSymbol>&qt;</OpenSymbol>
+  <OpenSymbolFinishOnEol>False</OpenSymbolFinishOnEol>
+  <CloseSymbol>&qt;</CloseSymbol>
+  <CloseSymbolFinishOnEol>False</CloseSymbolFinishOnEol>
+  <OpenSymbolStartLine>False</OpenSymbolStartLine>
+  <CloseSymbolStartLine>False</CloseSymbolStartLine>
+  <DelimiterChars>&qt;</DelimiterChars>
+  <OpenSymbolPartOfTerm>Right</OpenSymbolPartOfTerm>
+  <CloseSymbolPartOfTerm>Right</CloseSymbolPartOfTerm>
+  <CloseOnTerm>False</CloseOnTerm>
+  <CloseOnEol>True</CloseOnEol>
+  <AllowPredClose>False</AllowPredClose>
+  <CaseSensitive>False</CaseSensitive>
+  </Range>
+
+ </Range>
+ <CopyRight>Rule file for UniHighlighter Delphi component (Copyright(C) Fantasist(walking_in_the_sky@yahoo.com), Vit(nevzorov@yahoo.com), Vitalik(v-e-t-a-l@ukr.net), 2002-2004)</CopyRight>
+</UniHighlighter>
