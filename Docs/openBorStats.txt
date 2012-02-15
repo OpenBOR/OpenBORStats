@@ -1,0 +1,98 @@
+"OpenBor stats"
+
+"Quick description"
+A useful application to help edit and manage openBor projects.
+
+"DonateWare".
+If you like this app please consider donating. Goto < https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mtirnanic%2bpay%40gmail%2ecom&lc=GB&item_name=Donating&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted > Thank You.
+
+"Empty Extensions"
+If you are working with images that contain no extensions then you can set what format openBor Stats will decode  them as.
+In the config, To use gif (default)
+[Config]
+BlankFiles=gif
+To use PNG
+[Config]
+BlankFiles=png
+
+"Text Pad"
+A powerful and functional editor has been added to help simplify editing using the traditional notepad route but with plenty of usefull features.
+You can double click or press ctrl+return on any line and it will give you a detailed description on what that command does and how to use it.
+Hint. Don't forget to use F9/F10 during the editor.
+
+"Glossary System"
+No need to know any commands used by openBor or where each command should go anymore.
+The Glossary system shows you all possible commands that can be used no matter what part of the entity your editing.
+Missing Glossary commands, no problem. Just add or modify one as you see fit in the System Editor giving you the ability to change features as openBor changes.
+
+"Character Editor"
+Easily modify characters with the openBor Stats character editor.
+Can also easily edit the scipt with the in build editor and or use edit box's to modify information.
+
+"Test Factory"
+Easily test a entity in a Tiny prebuild basic package.
+This can help you test if the character is working properly and if the character is preforming the way you want it to, giving a quick way of tweaking him.
+"How to use test factory"
+.Open a project
+.Expand Models>>Enemies
+.Hold in control
+.Select two or three enemies.
+.Expand Models>>Player
+.Select a player.
+.Then right click any selected entity and click on "Test Factory" and click on the "Test" button.
+NB! Do not select weapons, knifes, stars etc... as they will crash openBor.
+You can goto the Tools menu and it will call up the previous used entities in the Test Factory.
+You can set default paramaters such as knifes, stages etc within "openBorStats\Tools\Test" as that is the default settings that get used.
+
+"Format Factory"
+Format factory allows you to easily and correctly format a Entity text file. This will replace spaces where there should be a tab etc...
+Detects script areas and won't cause any changes there.
+
+"Colors"
+'Anim list' (Left area)
+Navy = Contains script
+'Frame details' (right area)
+Maroon = No exiting value
+Blue = Has a value even if its null
+
+"Shortcut Keys"
+CTRL+Left Arrow/Right Arrow = Copies frame settings of the characters frame details. If you have your cursor on a attack box (lets say x) then you press Crtl+Left arrow then it will copy the previous frames details. Same for bbox,offset and move settings.
+F3 = Call up the Main Screen.
+F4 = Test Factory
+F5 = Level Editor
+F6 = Character Editor
+F7 = Set to Frame Mode / Set to Project Mode
+F8 = Set to Editor Mode
+F9 = Previous Anim / Previous Project item
+F10 = Next Anim / Next Project item
+F11 = Previous Frame
+F12 = Next Frame
+
+"Shortcut Keys in Character Editor"
+CTRL = add/set Body box mode . (Press Ctrl While the mouse is over the entity image area.)
+SHIFT = add/set Attack box mode . (Press Shift While the mouse is over the entity image area.)
+
+"Scripting"
+BorScript  = The standard text of entity, model and level files(The stuff that everyone knows).
+CodeScript = C script used in openBor(The hard stuff).
+
+"Limitations"
+All files and directories must be located without "spaces" in them. It doesn't matter how long the file/directories names are but openBor Stats doesn't support spacing in file/directory names anywhere. This "C:\Documents and Settings\Owner\Desktop\OpenBOR\SGMB" won't work but this will "C:\SGMB\Data".
+The character editor is more of a character modifier than a character creator, more features need to be added.
+The front page grid is just a information list to help easily navigate with Entity and Level files.
+openBor Stats does not support decimal/float values and just sets them to 0 as openBor does not fully support them. I will only fix this if openBor actually starts using decimal values as I realised to late while devoloping that openBor does that and its just way to much work to change the openBor Stats engine without a real need for it.
+
+"Source Code Compile"
+You will need delphi 7 + the Jedi 3 component pack.
+
+"3rdParty Apps"
+All 3rd Party app are copy right by there developers and can be located in the Tools Directory.
+
+"Greets and Thanx"
+To the openBor developers for creating and maintaining an amazing and entertaining game platform.
+To the Lavalit community who helped with many details on the openBor engine.
+To everyone who has created a game for the openBor engine and especially to those who share there creations willingly in the hopes to get more and better games out there.
+To all those who helped create demonstration pak used to figure out how scripting, characters or anything else works.
+To all those who created help files.
+Thanx to Gringo for creating OpenBOR Editor which helped making it easier to figure out character creation.
+Thanx to all beta testers especially "Fightn Words"

@@ -1,0 +1,9 @@
+
+
+
+
+Clsn2Default: 2
+ Clsn2[0] = -10,  0, 10,-79
+ Clsn2[1] =  -4,-92,  6,-79
+Group number, image number, X offset, Y offset, game-ticks, [options]
+0,		3, 		0,	0, 	7 

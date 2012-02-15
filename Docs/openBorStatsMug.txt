@@ -1,0 +1,84 @@
+"Mugen Character Importer"
+Import characters from mugen which will automatically convert each pcx file into a gif and add the correct animation order into the openBor character file.
+All Entity Anim Name's are named after the last comment in the air file.
+If your using obeditor you will need to delete alot of the unessary anime groups as it does crash the editor when there are loads of images it has to work with, I'm not sure what the limit is for obeditor but there is also a limit in openBor, so you will have to manually edit the text file in the begining. I found that deleting from anime 50 onwards is useally a safe bet but it depends on the character.
+
+With the vast amount of mugen paks out on the net you can now easily import mugen characters into you openBor project with minimal fuss....but theres still editing required :)
+
+
+
+
+
+
+Not a problem.
+
+Let me tell you little secret about openBor Stats, don't tell anyone about this especially here on Lavalit cause then I'll get into trouble....
+
+Inside the [b]obConfig.ini[/b] add this where it says [Config]...
+;[Config] don't add this line this is the section, just the next one..
+qckAdt=1
+
+You will see theres a new button at the top middle of openBor Stats main window. This will allow you to import mugen characters directly into openBor format. (Cool huh ;D)
+
+Inside the folder [b]Tools[/b] you will have to download [b]sffextract.exe[/b] and place it in there for it to work you will also need irfanview in that same directory but you only need the [b]i_view32.exe[/b] and the [b]i_view32.ini[/b]. I think thats all you need, if it doesn't work just message me.
+
+in openBor Stats Click on the down arrow button and then click [b]Air File(Single)[/b]
+
+PS, you will have to have a project open.
+
+Things to remember when importing.....
+These 3 files of a mugen character has to be the same.
+*.air
+*.def
+*.sff
+Also try to have those filenames less than 8 chracters (cause openBor doesn't support more)
+You still have to add the character into openBor's Models.txt file and you will still have todo some things like add BBox, attack, timing etc but at least the hard work is done for you.
+Because the files have to be renamed to be less than 8 characters alot of the time when it looks like it has a wrong frame just try to add a -1. So if its something like img01.gif then write it as img01-1.gif
+
+
+
+
+I recommend using these setting in the [b]i_view32.ini[/b] file. createit yourself.
+
+;Begin of ini file
+[WinPosition]
+xKoord=0
+yKoord=0
+Width=495
+Height=366
+Maximized=0
+[Open]
+OpenIndex=1
+
+[MRUD]
+Dir1=
+Dir2=
+Dir3=
+Dir4=
+Dir5=
+Dir6=
+Dir7=
+Dir8=
+Dir9=
+Dir10=
+[JPEG]
+Save Quality=80
+Save Progressive=0
+Save Grayscale=0
+NoSampling=0
+KeepExif=1
+KeepCom=1
+KeepIptc=1
+ExifOrient=1
+SetSize=0
+FileSize=65.00
+[MultiGIF]
+SaveInterlaced=0
+SaveTransparent=0
+UsePalette=0
+Transparency=0
+[Copy-Move]
+SaveDir=C:\Del\
+[Others]
+SaveIndex=5
+;end of ini file

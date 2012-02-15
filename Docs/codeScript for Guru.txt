@@ -1,0 +1,51 @@
+How to add a new codeScript
+---------------------------
+
+Goto the system editor on the main window.
+
+This example works with the "animationscript" area.
+Right click on "Script Animation" and click "add".
+
+"Description" tab on top left.
+"Command Name"
+This is the actual methods name that will be used when calling this method.
+
+"Length allowed"
+Doesn't really get used at the moment.
+
+"Variables"
+These variables are for the "openBor Stats" internal commands and are used to build the component set where the net result of the command call will be done. For instance, if you add a variable called 'animation' then a drop down box will be created that will list the current selected entities available anim types or if you add 'int' then a spin number box will be genarated.
+You will see how this is generated once you get to the "Internal command" explanation.
+The question mark button to the right will inform you of what variables can be used and what they will do.
+Please seperate variables by using a comma.
+NB! Do not use space's. Ever!
+
+"Return Type"
+Single or multiple. This command should be left on Single when using it for codeScripts.
+
+"Internal Command"
+Once you have added your variables click on the drop down (it will have 'None' in it) box and select "Build from Variables"
+You will now have noticed that below the "Returnable Value" edit field a new section has been created with components that match the variables.
+
+"Description"
+This description will be displayed to the user and should contain a brief description on what the method will do and how to use it.
+
+"Script" Tab on top left.
+"Function Result"
+Does nothing yet.
+
+"Filename"
+Does nothing yet. This will be used for other scipting areas such as didhitScript etc.
+
+"Script Type"
+Does nothing yet.
+
+"Script code"
+This is where you place the code for the method that you have created.
+You will have to call the method the same name as you used in the "Command Name" field.
+Please keep it preferably as one function but its not necessary and read on about how openBor stats automatically setups the codeScrip into a openBor project.
+
+Remember to Save the New codeScript by hitting the "save button" at the bottom middle and also to save the System Editor file top left button.
+
+"openBor Project" auto script setup.
+When a user adds a codeScript method call of a "animationscript"  into there entity openBor Stats will automatically search and replace or add the animationscript command for that entity with "animationscript data/scripts/aniScp.c" and will iterate through all of the available codescripts in the "Script Animation" tree and place them into one file and save it into "project\data\scripts\aniScp.c"

@@ -1,0 +1,23 @@
+How to use animation script with openBor Stats.
+
+Heres how to change an animation at a specifict frame number if a key has been pressed....
+
+1. Open any entity (preferebly one that doesn't have any script)
+2. Select a animation type (Lets select PAIN for this demonstration)
+3. In the editor tab (while editing) create a new line before a frame command (Lets select the last pain frame. NB it must be before)
+4. Expand "Script Animation">>"attack" found in the tree to the right.
+5. Dbl Click "changeanibykeytoattack" (once this is done at this point openBor Stats automatically adds all needed scripts etc. You'll notice this line has also been added "animationscript	data/scripts/aniScp.c" in the header area. WARNING if you have no scripts being used but have this line added then openbor will crash. Its fucking irratating cause openbor doesn't tell you why it crashed)
+6. a new window pops up and then focus on beneath the "Returnable Value"
+ 6.1 Click on the drop down box and select "attack1"
+ 6.2 Then the edit box to its right (not the number box) type in D (which is down. NB It HAS to be capitilised.
+ 6.3 Then hit the updated button to the right. (Its the small button with a up arrow)
+7. Then Click on OK (and openBor stats has format it correctly for you.)
+
+Thats it.
+
+Now save your character and start openBor.
+Now walk up to a enemy and hold down and if the enemy hits you then you will quickly break the frame and goto attack1.
+
+There are more script to be used and in various other ways and also can be easily created by guru's but I've added a few that you might find usefull and I've tried adding a description for them all.
+
+Have Fun.
