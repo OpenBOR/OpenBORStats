@@ -1,6 +1,7 @@
 program openBorStats;
 
 uses
+  FastMM4,
   Forms,
   unMain in 'unMain.pas' {Form1},
   unLevels in 'unLevels.pas',
