@@ -12,7 +12,7 @@ unit xmlopenBorSystem;
 
 interface
 
-uses xmldom, XMLDoc, XMLIntf;
+uses variants, xmldom, XMLDoc, XMLIntf;
 
 type
 
@@ -352,7 +352,15 @@ end;
 
 function TXMLTopenBorSystemDef.Get_Sctyp: Integer;
 begin
-  Result := ChildNodes['sctyp'].NodeValue;
+  try
+
+  if(varIsNull(ChildNodes['sctyp'].NodeValue)) then
+    Result := 0
+  else
+    Result := ChildNodes['sctyp'].NodeValue;
+
+  except
+  end
 end;
 
 procedure TXMLTopenBorSystemDef.Set_Sctyp(Value: Integer);
