@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, ExtCtrls, unCommon, StdCtrls, Mask, JvExMask, JvSpin,
   JvgScrollBox, mario, JvExExtCtrls, JvComponent, JvPanel, ComCtrls,
-  JvExComCtrls, JvStatusBar, JvExControls, JvRuler;
+  JvExComCtrls, JvStatusBar, JvExControls, JvRuler, JvExtComponent;
 
 type
   TfrmHudDesign = class(TForm)
@@ -609,6 +609,26 @@ Begin
     end;
   //except
   //end;
+end;
+
+procedure stripStringTwoInteger(s: string; i1, i2:integer);
+begin
+    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
+end;
+
+procedure stripStringSixInteger(s: string; i1, i2, i3, i4, i5, i6:integer);
+begin
+    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
+end;
+
+procedure stripStringSevenInteger(s: string; i1, i2, i3, i4, i5, i6, i7:integer);
+begin
+    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
+end;
+
+procedure stripStringEightInteger(s: string; i1, i2, i3, i4, i5, i6, i7, i8:integer);
+begin
+    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
 end;
 
 
