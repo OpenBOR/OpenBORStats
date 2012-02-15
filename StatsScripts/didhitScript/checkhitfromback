@@ -1,0 +1,9 @@
+int iDX = getentityproperty(vSelf, "x");
+int iDD = getentityproperty(vSelf, "direction") ;
+int iAX = getentityproperty(vAttacker, "x");
+
+if (iDD == 1 && iAX > iDX)
+{
+//self got hit from the back while facing left. Do some stuff.
+}
+else if.....

@@ -1,0 +1,2 @@
+changeentityproperty(self, "aiflag", "jumping", 0); // Disable jumping status
+    changeentityproperty(self, "aiflag", "attacking", 1); // Enable attacking status

@@ -1,0 +1,27 @@
+
+    Flash: getentityproperty({ent}, "flash", {subproperty})
+
+    {subproperty}
+    ~"default" - Default flash.
+    ~"block" - bflash.
+    ~"noattack" - noatflash.
+
+    Icon: getentityproperty({ent}, "icon", {subproperty})
+
+    {subproperty}
+    ~"default" - Default icon.
+    ~"die" - icondie.
+    ~"get" - iconget.
+    ~"mphigh" - iconmphigh (mp > 65%, default icon if no others).
+    ~"mplow" - iconmplow (mp < 33%).   
+    ~"mpmed" - iconmphalf (mp between 33% and 65%).
+    ~"pain" - iconpain.
+    ~"weapon" - iconw.
+    ~"x" - iconposition {x} {y}.
+    ~"y" - iconposition {x} {y}.
+
+    Staydown: getentityproperty({ent}, "staydown", {subproperty})
+
+    {subproperty}
+    ~"attack" - Modifier to target's risetime.
+    ~"time" - Modifier to self's risetime.
