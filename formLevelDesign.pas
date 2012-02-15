@@ -20,7 +20,7 @@ uses
   JvgScrollBox, Menus, JvArrowButton, pngextra, JvExStdCtrls, JvHtControls,
   JvRichEdit, JvPanel, JvComCtrls, SynHighlighterTeX, SynHighlighterST,
   SynHighlighterCpp, SynEdit, GraphicEx, JvComponentBase, JvBaseDlg,
-  JvBrowseFolder, JvGroupBox, JvImage{,
+  JvBrowseFolder, JvGroupBox, JvImage, JvExtComponent{,
 
   ImagingTypes,
   Imaging,
@@ -271,27 +271,49 @@ end;
 function TfrmLevelDesign.setImage(image: TImage; x, y: Integer;filename:string;setwidth:boolean): TImage;
 //var
 //  aa : TColor;
+var
+  GraphicClass: TGraphicExGraphicClass;
+  Graphic: TGraphic;
+  Target : TBitmap;
 begin
   if image = nil then Begin
     image := TImage.Create(pnlLevel);
-
   end;
+
   MatStringDelete2End(filename,' ');
+
   if FileExists(filename) then Begin
     image.Parent := pnlLevel;
-    image.Transparent := True;
     image := registerextlessimag(image);
-    image.Picture.LoadFromFile(filename);
+    // determine true file type from content rather than extension
+    GraphicClass := FileFormatList.GraphicFromContent(FileName);
+    if GraphicClass = nil then
+      Image.Picture.LoadFromFile(FileName)
+    else begin
+      // GraphicFromContent always returns TGraphicExGraphicClass
+      Graphic := GraphicClass.Create;
+
+      Graphic.LoadFromFile(FileName);
+      Image.Picture.Graphic := Graphic;
+      Graphic.Free;
+
+      Target := Tbitmap.Create();
+      Target.PixelFormat := pf24Bit;
+      Target.Width := Image.Picture.Width;
+      Target.Height := Image.Picture.Height;
+      Target.Canvas.Draw(0, 0, Image.Picture.Graphic);
+
+      Target.TransparentMode := tmFixed;
+      Target.TransparentColor := target.Canvas.Pixels[0, 0];
+
+      image.picture.Bitmap.Assign(target);
+      Target.Free;
+      image.Transparent := true;
+
+    end;
+
     image.Width := image.Picture.Width;
     image.Height := image.Picture.Height;
-    image.Transparent := True;
-    image.Picture.Graphic.Transparent := True;
-    //image.Repaint;
-    //aaImage := TImage.Create(nil);
-    //aaImage.Picture.LoadFromFile(filename);
-    //aa := getFirstColor(Image);
-    //image.Picture.Bitmap.TransparentColor := aa;
-    //image.Picture.Bitmap.Transparent := True;
   end;
   image.Left := x;
   image.Top := y;
@@ -478,11 +500,6 @@ begin
         StringDeleteUp2(s,' ');
         offY := StrToInt(s);
         img := setImage( img,((spwn.coX+spwn.coAt)-offX ),(spwn.coY -offY),ses.dataDirecotry+'\'+entity.getIdleImage,true );
-
-        //I think because the image is not a bmp the tcolor is read only and can't be set...very sad
-        //img.Picture.Bitmap.TransparentColor := getFirstColor(img);
-        //img.Picture.Bitmap.TransparentMode := tmFixed;
-        //img.Picture.Bitmap.Transparent := true;
 
         img.DragMode := dmAutomatic;
         img.DragKind := dkDrag;
