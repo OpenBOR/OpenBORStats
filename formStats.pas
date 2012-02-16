@@ -229,7 +229,7 @@ begin
   if DirectoryExists(DataDir) then Begin
     ses.dataDirecotry := DataDir;
     //Create Entity columns
-    createEntity(ExtractFileDir(Application.ExeName)+'\Entity header.txt');
+    createEntity(ExtractFileDir(Application.ExeName)+'\Config\Entity header.txt');
     //Search for and populate all Entity files
     Form1.JvSearchFiles1.FileParams.FileMasks.Text := '*.txt';
     Form1.JvSearchFiles1.RootDirectory := DataDir + '\chars\';
@@ -271,7 +271,7 @@ begin
       end;
       frmStats.gridEntity.RowCount := 2;
     end else
-      ShowMessage('"Entity header.txt" file not found!');
+      ShowMessage('"' + filename + '" file not found!');
   finally
   end;
 end;
