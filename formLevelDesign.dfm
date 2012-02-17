@@ -149,6 +149,15 @@ object frmLevelDesign: TfrmLevelDesign
       Height = 22
       TabOrder = 7
     end
+    object btnWallCalc: TButton
+      Left = 735
+      Top = 2
+      Width = 50
+      Height = 22
+      Caption = 'WallCalc'
+      TabOrder = 8
+      OnClick = btnWallCalcClick
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
