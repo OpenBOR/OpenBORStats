@@ -100,7 +100,7 @@ begin
   systemEditor.Align := alClient;
   systemEditor.formCreate;
    treeEditorVst := TclsopenBorSystemVst.Create(vstopenBorSystemList,ses.borSys);
-  returnValues := TStrings.Create;
+  returnValues := TStringList.Create;
   vstopenBorSystemList := treeVisuals(vstopenBorSystemList);
 end;
 
