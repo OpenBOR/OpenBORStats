@@ -11,7 +11,7 @@ uses
   jvStrings, SynHighlighterTeX, SynHighlighterST, SynUniHighlighter, frmSynSearch,
   SynHighlighterCpp, SynEdit, ToolWin, ComCtrls, JvExComCtrls, JvToolBar,
   VirtualTrees, SynCompletionProposal, StdCtrls, JvgScrollBox,
-  SynEditMiscClasses, SynEditSearch, Menus, ActiveX;
+  SynEditMiscClasses, SynEditSearch, Menus, ActiveX, JvExtComponent;
 
 type
   TfrmEditorSyn = class(TFrame)
@@ -544,12 +544,8 @@ begin
   found := false;
   canProceed := false;
   grp := '';
-  Try
-    if Length(searchStr) > 0 then
-      while searchStr[Length(searchStr)] in inters do Begin
-        delete(searchStr,length(searchStr),1);
-      end;
-  except
+  while (Length(searchStr) > 0) and (searchStr[Length(searchStr)] in inters) do Begin
+    delete(searchStr,length(searchStr),1);
   end;
   if vstEditor.FocusedNode <> nil then Begin
     pData := vstEditor.GetNodeData(vstEditor.FocusedNode);
