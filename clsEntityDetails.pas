@@ -92,6 +92,7 @@ type
     lastKnownLineNumber : integer;
     idleImageF : string;
     iIcon : tImage; //TGraphic;  //TPicture; //TBitmap;// ;
+    function getProperty(propName : string):string;
     function getAnimations:TStringList;
     function getIdleImage:string;
     function getIdleImageOffset:String;
@@ -111,6 +112,22 @@ implementation
 uses
   unMain, Math;
 { TEntityDetails }
+
+function TEntityDetails.getProperty(propName : string):string;
+var
+  i : integeR;
+  s : string;
+begin
+  for i := 0 to headers.Count -1 do begin
+      s := lowercase(headers.Strings[i]);
+      s := trim(sysutils.stringreplace(s, #9 , ' ', [rfReplaceAll]));
+      if (pos(propName, s) = 1) then begin
+        result := copy(s, 1 + length(propName) + 1, maxint);
+        exit;
+      end;
+  end;
+  result := '';
+end;
 
 procedure TEntityDetails.addData(listData: TStringList;LineNumber:integer);
 Var
@@ -495,21 +512,17 @@ Var
   found : boolean;
 begin
   i := 0;
-    if entityDetails <> nil then
-      while i < entityDetails.headers.Count do Begin
-        s := strClearAll(entityDetails.headers.Strings[i]);
-        StringDelete2End(s,'#');
-        if isEntityType(s) then Begin
-          s := strip2Bar('type',s);
-          found := true;
-          i :=  entityDetails.headers.Count ;
-        end;
-        inc(i);
+  if entityDetails <> nil then
+    while i < entityDetails.headers.Count do Begin
+      s := strClearAll(entityDetails.headers.Strings[i]);
+      StringDelete2End(s,'#');
+      if isEntityType(s) then Begin
+        result := strip2Bar('type',s);
+        exit;
       end;
-  if found = true then
-    Result := s
-  else
-    Result := '';
+      inc(i);
+    end;
+  Result := '';
 end;
 
 function TEntityDetails.getIdleImage: string;
@@ -527,18 +540,17 @@ begin
         while j < entityDetail.header.Count do Begin
           s := strClearAll(entityDetail.header.Strings[j]);
           If isFrameBlock(s) then Begin
-            s := borFile2File(strip2Bar('frame',s));
-            j := entityDetail.header.Count;
-            i := list.Count;
+            result := borFile2File(strip2Bar('frame',s));
+            exit;
           end;
           inc(j);
         end;
-        i := list.Count;
+        break;
       end;
       inc(i);
     end;
   end;
-  Result := s;
+  Result := '';
 end;
 
 function TEntityDetails.getIdleImageOffset: String;
@@ -555,19 +567,18 @@ begin
         if entityDetail.animeName = 'idle' then Begin
           j := 0;
           while j < entityDetail.header.Count do Begin
-            s := strClearAll(entityDetail.header.Strings[j]);
+            s := strClearAll(lowercase(entityDetail.header.Strings[j]));
             If PosStr('offset',s) > 0 then Begin
-              s := strip2Bar('offset',s);
-              j := entityDetail.header.Count;
-              i := list.Count;
+              result := strip2Bar('offset',s);
+              exit;
             end;
             inc(j);
           end;
-        i := list.Count;
-      end;
-      inc(i);
+          break;
+        end;
+        inc(i);
     end;
-  Result := s;
+  Result := '';
 end;
 
 function TEntityDetails.getIcon: tImage;
@@ -975,7 +986,7 @@ function TEntityDetailFrames.stripAttackBox(var x, y, w, h, dmg, pwr, Blck, Flsh
 Var
   sX, sY, sW, sH, sDmg, sPwr, sFlsh, sBlck, sPause, sDepth : String;
   iSpaces : Integer;
-  attacjBoxType : string;
+  attackBoxType : string;
   found : boolean;
 begin
   if isAttackBlock(line2Strip) = true then Begin
@@ -988,9 +999,13 @@ begin
     name := line2Strip;
     Form1.StringDelete2End(Name,' ');
     Form1.StringDelete2End(Name,#09);
-    attacjBoxType := detectAttackBoxType(line2Strip);
+    attackBoxType := detectAttackBoxType(line2Strip);
+    if (attackBoxType = '') then showmessage('dont know attacktype ' + line2strip);
     //Form1.StringDeleteUp2(line2Strip,'attack',6);
-    Form1.StringDeleteUp2(line2Strip,attacjBoxType,length(attacjBoxType));
+    //apparently it was the authors intention to remove "attack" or whatever
+    // from the start of the string, to get to the values...
+    //Form1.StringDeleteUp2(line2Strip,attackBoxType,length(attackBoxType));
+    delete(line2strip, 1, length(attackBoxType));
     line2Strip := strClearStartEnd(line2Strip);
     line2Strip := strRemoveDbls(line2Strip);
 
@@ -1659,6 +1674,7 @@ function TEntityDetailFrames.detectAttackBoxType(
 Var
   s, sType : string;
 begin
+  line2strip := lowercase(line2strip);
   if PosStr('blast',line2strip) > 0 then
     sType := 'blast'
   else
