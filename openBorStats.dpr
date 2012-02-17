@@ -35,7 +35,8 @@ uses
   formStairs in 'formStairs.pas' {frmStairs},
   untFndFileVst in 'untFndFileVst.pas' {frmFndFileVst},
   clsirfanView in 'clsirfanView.pas',
-  unHudDesign in 'unHudDesign.pas' {frmHudDesign};
+  unHudDesign in 'unHudDesign.pas' {frmHudDesign},
+  formWallCalc in 'formWallCalc.pas' {frmWallCalc};
 
 {$R *.res}
 
@@ -55,5 +56,6 @@ begin
   Application.CreateForm(TfrmStairs, frmStairs);
   Application.CreateForm(TfrmFndFileVst, frmFndFileVst);
   Application.CreateForm(TfrmHudDesign, frmHudDesign);
+  Application.CreateForm(TfrmWallCalc, frmWallCalc);
   Application.Run;
 end.
