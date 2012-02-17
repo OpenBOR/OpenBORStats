@@ -329,7 +329,6 @@ object fsystemEditor: TfsystemEditor
             Gutter.ZeroStart = True
             Gutter.Gradient = True
             Gutter.GradientEndColor = clHighlight
-            Gutter.CharWidth = 7
             Highlighter = SynCSSyn1
             Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTrimTrailingSpaces]
             WantTabs = True

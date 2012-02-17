@@ -65,7 +65,6 @@ object frmEditorSyn: TfrmEditorSyn
       Gutter.ZeroStart = True
       Gutter.Gradient = True
       Gutter.GradientEndColor = clHighlight
-      Gutter.CharWidth = 7
       Options = [eoAutoIndent, eoDragDropEditing, eoEnhanceEndKey, eoGroupUndo, eoScrollPastEol, eoShowScrollHint, eoSmartTabDelete, eoSmartTabs, eoTrimTrailingSpaces]
       SearchEngine = SynEditSearch1
       WantTabs = True
