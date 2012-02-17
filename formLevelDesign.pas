@@ -7,6 +7,7 @@ uses
   Dialogs, ExtCtrls, JvExExtCtrls, JvNetscapeSplitter, ComCtrls, ToolWin,
   clsopenBorSystemVst, clsanimeEntityListVst, marioImg, mario,
   clsEntityDetails, unCommon, frameEditor, clsLevelDesign,
+  formWallCalc,
   xmlopenBorSystemClass,
   jvStrings, frameGifList,
   formSystemEditor, GIFImage,
@@ -55,6 +56,7 @@ type
     ProgressBar1: TProgressBar;
     popLevel: TPopupMenu;
     StaircaseBuilder1: TMenuItem;
+    btnWallCalc: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure btnSaveClick(Sender: TObject);
@@ -80,6 +82,7 @@ type
     procedure Image1DragDrop(Sender, Source: TObject; X, Y: Integer);
     procedure Image1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure btnWallCalcClick(Sender: TObject);
 
 
 
@@ -320,12 +323,9 @@ begin
   if image.Height > pnlLevel.Height then
     pnlLevel.Height := image.Height + 10;
   if x > pnlLevel.Width then
-    setwidth := true;
+    pnlLevel.Width := x;
   if image.Width > pnlLevel.Width then
-    setwidth := true;
-  if setwidth = true then
-    pnlLevel.Width := pnlLevel.Width + image.Picture.Width;
-  //pnlLevel.Height := pnlLevel.Height + image.Picture.Height;
+    pnlLevel.Width := image.width;
   Result := image;
 end;
 
@@ -470,6 +470,7 @@ Var
   entity : TEntityDetails;
   offset, s : string;
   offX, offY : integer;
+  antigrav : integer;
 begin
   //Draw Entities Layer
   for i := 0 to entitiesList.Count -1 do Begin
@@ -499,7 +500,11 @@ begin
         s := strip2Bar('offset',offset);
         StringDeleteUp2(s,' ');
         offY := StrToInt(s);
-        img := setImage( img,((spwn.coX+spwn.coAt)-offX ),(spwn.coY -offY),ses.dataDirecotry+'\'+entity.getIdleImage,true );
+        s := entity.getProperty('antigravity');
+        antigrav := 0;
+        if s <> '' then
+          antigrav := strtoint(s);
+        img := setImage( img,((spwn.coX+spwn.coAt)-offX ),(spwn.coY - offY - antigrav),ses.dataDirecotry+'\'+entity.getIdleImage,true );
 
         img.DragMode := dmAutomatic;
         img.DragKind := dkDrag;
@@ -978,6 +983,11 @@ begin
     except
     end;
   end;
+end;
+
+procedure TfrmLevelDesign.btnWallCalcClick(Sender: TObject);
+begin
+    frmWallCalc.Show;
 end;
 
 end.
