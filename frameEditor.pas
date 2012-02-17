@@ -540,7 +540,7 @@ begin
   if (cbFocus.Checked = false) and
      (partialfind = false) then
     exit;
-  LowerCase(searchStr);
+  searchStr := LowerCase(searchStr);
   found := false;
   canProceed := false;
   grp := '';
