@@ -123,13 +123,6 @@ uses formSystemEditor, formCharacterEditor, unMain;
 
 procedure TfrmEditorSyn.formDestroy;
 begin
-(*    mediaFrame : TfrmGifList;
-    treeEditorVst : TclsopenBorSystemVst;
-    aSyn : TSynUniSyn;
-    entityDetails : TEntityDetails;
-    nodeEntityHeader, nodeEntityAnimTypes, nodeEntityAnimData,
-    nodeModels, nodeLevelHeader, nodeLevelSets, nodeLevelDesign,
-    nodeLevelObjects, nodeFunctions : PVirtualNode; *)
     if(assigned(mediaFrame)) then freeAndNil(mediaFrame);
     if(assigned(treeEditorVst)) then freeAndNil(treeEditorVst);
     if(assigned(entitydetails)) then freeAndNil(entityDetails);
