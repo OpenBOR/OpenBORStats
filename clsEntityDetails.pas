@@ -106,12 +106,20 @@ type
     function savetofile(filename:string; entityDetails:TEntityDetails):boolean;
 
     constructor create;
+    destructor Destroy; override;
 end;
 
 implementation
 uses
   unMain, Math;
 { TEntityDetails }
+
+destructor TEntityDetails.Destroy;
+begin
+  if(assigned(headers)) then FreeAndNil(headers);
+  if(assigned(list)) then FreeAndNil(list);
+  inherited destroy;
+end;
 
 function TEntityDetails.getProperty(propName : string):string;
 var
@@ -284,7 +292,7 @@ Var
   LastDelayValue : integer;
   newFrame, previousFrameattacked, attackFound : Boolean;
   ScriptFound : Boolean;
-  aEntityDetail : TEntityDetail;
+  aEntityDetail, temp : TEntityDetail;
 begin
   newFrame := True;
   LastDelayValue := 0;
@@ -366,8 +374,9 @@ begin
     End;
   end;
   //aEntityDetail.totalDelay := aEntityDetail.totalDelay + LastDelayValue;
-  aEntityDetail := aEntityDetail.stripAnimeFrames(aEntityDetail.header,aEntityDetail);
-  result := aEntityDetail;
+  temp := aEntityDetail.stripAnimeFrames(aEntityDetail.header,aEntityDetail);
+  //freeAndNil(aEntityDetail);
+  result := temp;
 end;
 
 function TEntityDetails.stripAttackDamage(comand: string): integer;
