@@ -95,7 +95,7 @@ type
     currentFile : string;
     pnlWall : TJvPanel;
     lastX, lastY : integer;
-    function setImage(image:TImage;x,y:Integer;filename:string='';setwidth:boolean=false):TImage;
+    function setImage(image:TImage;x,y:Integer;filename:string;setwidth:boolean; set_transparent:boolean):TImage;
 
     procedure drawcanvasline;
 
@@ -272,7 +272,7 @@ begin
   updatebackground;
 end;
 
-function TfrmLevelDesign.setImage(image: TImage; x, y: Integer;filename:string;setwidth:boolean): TImage;
+function TfrmLevelDesign.setImage(image: TImage; x, y: Integer;filename:string;setwidth:boolean; set_transparent:boolean): TImage;
 //var
 //  aa : TColor;
 var
@@ -307,12 +307,15 @@ begin
       Target.Height := Image.Picture.Height;
       Target.Canvas.Draw(0, 0, Image.Picture.Graphic);
 
-      Target.TransparentMode := tmFixed;
-      Target.TransparentColor := target.Canvas.Pixels[0, 0];
+      if set_Transparent then begin
+        Target.TransparentMode := tmFixed;
+        Target.TransparentColor := target.Canvas.Pixels[0, 0];
+      end;
 
       image.picture.Bitmap.Assign(target);
       Target.Free;
-      image.Transparent := true;
+      if set_Transparent then
+        image.Transparent := true;
 
     end;
 
@@ -505,7 +508,7 @@ begin
         antigrav := 0;
         if s <> '' then
           antigrav := strtoint(s);
-        img := setImage( img,((spwn.coX+spwn.coAt)-offX ),(spwn.coY - offY - antigrav),ses.dataDirecotry+'\'+entity.getIdleImage,true );
+        img := setImage( img,((spwn.coX+spwn.coAt)-offX ),(spwn.coY - offY - antigrav),ses.dataDirecotry+'\'+entity.getIdleImage,true, true );
 
         img.DragMode := dmAutomatic;
         img.DragKind := dkDrag;
@@ -811,7 +814,7 @@ begin
             (FileExists(ses.dataDirecotry+'\'+(bck.imageFile))) do Begin
              aImage := TImage.Create(pnlLevel);
              //aImage.OnMouseMove := Image1MouseMove;
-             aImage := setImage(aImage,getForegroundTotalWidth(i,bck.xSpacing)+bck.xPosition,0+bck.yPosition,ses.dataDirecotry+'\'+(bck.imageFile));
+             aImage := setImage(aImage,getForegroundTotalWidth(i, bck.xSpacing) + bck.xPosition, bck.yPosition, ses.dataDirecotry + '\' + bck.imageFile, false, true);
 
              //aImage.Picture.Bitmap.TransparentColor := getFirstColor(aImage);
 
@@ -822,7 +825,7 @@ begin
         for j := 0 to Trunc(bck.xRepeat) -1 do Begin
           aImage := TImage.Create(pnlLevel);
            //aImage.OnMouseMove := Image1MouseMove;
-           aImage := setImage(aImage,getForegroundTotalWidth(i,bck.xSpacing)+bck.xPosition,0+bck.yPosition,ses.dataDirecotry+'\'+(bck.imageFile));
+           aImage := setImage(aImage, getForegroundTotalWidth(i, bck.xSpacing) + bck.xPosition, bck.yPosition, ses.dataDirecotry + '\' + bck.imageFile, false, true);
 
            //aImage.Picture.Bitmap.TransparentColor := getFirstColor(aImage);
 
@@ -863,7 +866,7 @@ begin
           if FileExists(ses.dataDirecotry+'\'+(ses.currentLeveldesign.frontPanelList.Strings[i])) then Begin
             aImage := TImage.Create(pnlLevel);
             //aImage.OnMouseMove := Image1MouseMove;
-            aImage := setImage(aImage,getFrontPanelTotalWidth,0,ses.dataDirecotry+'\'+(ses.currentLeveldesign.frontPanelList.Strings[i]),false);
+            aImage := setImage(aImage,getFrontPanelTotalWidth,0,ses.dataDirecotry+'\'+(ses.currentLeveldesign.frontPanelList.Strings[i]),false, true);
 
             //aImage.Picture.Bitmap.TransparentColor := getFirstColor(aImage);
 
@@ -913,9 +916,9 @@ begin
       //aImage.OnMouseMove := Image1MouseMove;
       pnlWidth := getPanelTotalWidth;
       if pnlLevel.Width < pnlWidth then
-        aImage := setImage(aImage,pnlWidth,0,ses.dataDirecotry+'\'+panelImage,true)
+        aImage := setImage(aImage, pnlWidth, 0, ses.dataDirecotry + '\' + panelImage, true, true)
       else
-        aImage := setImage(aImage,pnlWidth,0,ses.dataDirecotry+'\'+panelImage,false);
+        aImage := setImage(aImage, pnlWidth, 0, ses.dataDirecotry + '\' + panelImage, false, true);
 
       //aImage.Picture.Bitmap.TransparentColor := getFirstColor(aImage);
 
@@ -958,7 +961,7 @@ begin
           (FileExists(ses.dataDirecotry+'\'+(bck.imageFile))) do Begin
            aImage := TImage.Create(pnlLevel);
            //aImage.OnMouseMove := Image1MouseMove;
-           aImage := setImage(aImage,getBackgroundTotalWidth(i)+bck.xPosition,0+bck.yPosition,ses.dataDirecotry+'\'+(bck.imageFile));
+           aImage := setImage(aImage, getBackgroundTotalWidth(i) + bck.xPosition, bck.yPosition, ses.dataDirecotry + '\' + bck.imageFile, false, false);
 
           // aImage.Picture.Bitmap.TransparentColor := getFirstColor(aImage);
 
@@ -969,7 +972,7 @@ begin
         for j := 0 to Trunc(bck.xRepeat) -1 do Begin
           aImage := TImage.Create(pnlLevel);
            //aImage.OnMouseMove := Image1MouseMove;
-           aImage := setImage(aImage,getBackgroundTotalWidth(i)+bck.xPosition,0+bck.yPosition,ses.dataDirecotry+'\'+(bck.imageFile));
+           aImage := setImage(aImage, getBackgroundTotalWidth(i) + bck.xPosition, bck.yPosition, ses.dataDirecotry + '\' + bck.imageFile, false, false);
 
            //aImage.Picture.Bitmap.TransparentColor := getFirstColor(aImage);
             {//set drag drop properties
