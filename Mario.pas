@@ -2118,7 +2118,7 @@ end;
 
 
 // returns the command in a bor "statement" as lowercase
-// e.g: '     aTTaCk'#9'   '134   545'    -> 'attack'
+// e.g: '     aTTaCk'#9'   134   545'    -> 'attack'
 function getBORCommand(borline : string):string;
 var
   i, l : integeR;
@@ -2129,7 +2129,7 @@ begin
   i := 0; l := length(s);
   while(i < l) do begin
     if s[i + 1] = ' ' then begin
-      result := copy(s, 1, i + 1);
+      result := copy(s, 1, i);
       exit;
     end;
     inc(i);
