@@ -18,6 +18,7 @@ type
     procedure gridEntityDetailsClick(Sender: TObject);
     procedure tbOpenClick(Sender: TObject);
     procedure gridEntityDetailsDblClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     function emptyLine(s:string):boolean;
@@ -162,5 +163,10 @@ begin
 end;
 
 
+
+procedure TfrmEntityDetails.FormDestroy(Sender: TObject);
+begin
+   if(assigned(EntityDetails)) then FreeAndNil(EntityDetails);
+end;
 
 end.
