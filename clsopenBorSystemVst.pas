@@ -44,6 +44,7 @@ type
   public
     { Public declarations }
     constructor Create(vTree:TVirtualStringTree;zxmlTopenBorSystem:aXmlopenBorSystem;includeXml:Boolean=false); Overload;
+    destructor destroy; override;
     //Xml Functions
     procedure setXmlStatus(include:Boolean); Overload;
     procedure setXmlStatus(sender:TVirtualStringTree;include:Boolean); Overload;
@@ -65,6 +66,14 @@ type
     function clearopenBorSystemrData(rData:ropenBorSystem):ropenBorSystem; Overload;}
   end;
 implementation
+
+destructor TclsopenBorSystemVst.destroy;
+begin
+  if(assigned(fTree)) then freeAndNil(ftree);
+  if(assigned(xmlopenBorSystem)) then freeAndNil(xmlopenBorSystem);
+  inherited Destroy;
+end;
+
 constructor TclsopenBorSystemVst.Create(vTree: TVirtualStringTree;zxmlTopenBorSystem:aXmlopenBorSystem;includeXml:Boolean);
 begin
   fTree := vTree;
