@@ -220,6 +220,7 @@ Begin
       (tree.background.graphic as TBitmap).free;
     end;  
     tree.Background.Graphic := Image;
+    image.free;
     //tree.Background.Graphic.LoadFromFile(ses.localDir + '\Res\Bck.bmp');
     //tree.Background.LoadFromFile(ses.localDir + '\Res\Bck.bmp');
     tree.BackgroundOffsetX := random(400);
