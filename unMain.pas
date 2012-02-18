@@ -17,17 +17,17 @@ uses
 
 type
   rSession = record
-  borSys : aXmlopenBorSystem;
-  video : Tvideo;
-  characterDir : string;
-  //Directories
-  dataDirecotry, localDir, openBorData, openBorTestApp, testDir : String;
-  modelsFile, levelFile, videoFile : String;
-  ropenBorSystemSelected : ropenBorSystem;
-  workingEntityDetail : TEntityDetail;
-  currentLeveldesign : TLevelDesign;
-  reloadsystem : boolean;
-end;
+    borSys : aXmlopenBorSystem;
+    video : Tvideo;
+    characterDir : string;
+    //Directories
+    dataDirecotry, localDir, openBorData, openBorTestApp, testDir : String;
+    modelsFile, levelFile, videoFile : String;
+    ropenBorSystemSelected : ropenBorSystem;
+    workingEntityDetail : TEntityDetail;
+    currentLeveldesign : TLevelDesign;
+    reloadsystem : boolean;
+  end;
 
 type
   TForm1 = class(TForm)
@@ -165,6 +165,7 @@ type
     procedure LevelHudDesign1Click(Sender: TObject);
     procedure ImportPak1Click(Sender: TObject);
     procedure Donate1Click(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
     localDir : string;
@@ -318,15 +319,12 @@ begin
   frameEditor.Parent := pnlEditor;
   frameEditor.Align := alClient;
   frameEditor.formCreate;
-  vstProject := treeVisuals(vstProject); 
+  treeVisuals(vstProject); 
 end;
 
 procedure TForm1.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
   //ses.borSys.SavetoFile(localDir+'\System\system.xml');
-
-  rDataList.Free;
-  rEntitylist.Free;
   iniSave;
 end;
 
@@ -1369,6 +1367,19 @@ end;
 procedure TForm1.Donate1Click(Sender: TObject);
 begin
   exeAppBor2('https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=mtirnanic%2bpay%40gmail%2ecom&lc=GB&item_name=Donating&currency_code=GBP&bn=PP%2dDonationsBF%3abtn_donate_LG%2egif%3aNonHosted');
+end;
+
+procedure TForm1.FormDestroy(Sender: TObject);
+begin
+    if(assigned(rEntitylist)) then FreeAndNil(rEntitylist);
+    if(assigned(rDatalist)) then FreeAndNil(rDatalist);
+    if(assigned(treeProject)) then FreeAndNil(treeProject);
+    (*if(assigned(ses)) then begin
+      if(assigned(ses.borSys)) then FreeAndNil(ses.borSys);
+    end;*)
+    //if(assigned(frameEditor)) then FreeAndNil(frameEditor);
+    //if(assigned(vstProject)) then FreeAndNil(vstProject);
+    freeAndNil(CoolTrayIcon1);
 end;
 
 end.

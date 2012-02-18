@@ -15,6 +15,7 @@ object Form1: TForm1
   Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object JvToolBar1: TJvToolBar
@@ -276,7 +277,7 @@ object Form1: TForm1
     Left = 0
     Top = 29
     Width = 862
-    Height = 424
+    Height = 425
     ActivePage = tabmain
     Align = alClient
     TabOrder = 1
@@ -288,7 +289,7 @@ object Form1: TForm1
         Left = 0
         Top = 0
         Width = 854
-        Height = 396
+        Height = 397
         Align = alClient
         Font.Charset = ANSI_CHARSET
         Font.Color = clWindowText
@@ -1159,6 +1160,7 @@ object Form1: TForm1
   end
   object JvThread1: TJvThread
     Exclusive = True
+    MaxCount = 0
     RunOnCreate = True
     FreeOnTerminate = True
     OnExecute = JvThread1Execute
