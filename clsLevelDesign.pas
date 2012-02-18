@@ -244,7 +244,17 @@ begin
   while i < LevelDesignfileList.Count do Begin
     s := strClearAll(LevelDesignfileList.Strings[i]);
     if isHole(s) = true then Begin
-      wall := TLvlWall.create(strip2Bar('hole',s));
+      s1 := strip2Bar('hole',s);
+      wall := TLvlWall.create(s1);
+      // openbor allows to leave those values optional and then assigns the
+      // following "magic" default values... grep obenbors source code for CMD_LEVEL_HOLE
+      if(wall.yPos = 0) then wall.yPos := 240;
+      if(wall.upperLeft = 0) then wall.upperLeft := 12;
+      if(wall.lowerLeft = 0) then wall.lowerLeft := 1;
+      if(wall.upperRight = 0) then wall.upperRight := 200;
+      if(wall.lowerRight = 0) then wall.lowerRight := 287;
+      if(wall.depth = 0) then wall.Depth := 45;
+
       holesList.AddObject(IntToStr(holesList.Count),wall);
       //spwn.spName := strip2Bar('wall',s);
     end ;//else
