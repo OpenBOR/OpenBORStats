@@ -1,4 +1,4 @@
-unit Mario;//V0.57
+unit Mario;//V0.60
 //A unit with usefull Methods
 
 interface
@@ -67,6 +67,25 @@ function floatString2DateTime(str:string):TDateTime;
 
 function GetCharFromVirtualKey(Key: Word): string;
 //------------------------------------------------------------------------------
+           ////////Strip Procedures////////
+//------------------------------------------------------------------------------
+procedure stripStringTwoInteger(s:string;var value1:integer; var value2:integer);
+procedure stripStringSixInteger(s:string;
+                          var value1:integer; var value2:integer;
+                          var value3:integer; var value4:integer;
+                          var value5:integer; var value6:integer);
+procedure stripStringSevenInteger(s:string;
+                          var value1:integer; var value2:integer;
+                          var value3:integer; var value4:integer;
+                          var value5:integer; var value6:integer;
+                          var value7:integer);
+procedure stripStringEightInteger(s:string;
+                          var value1:integer; var value2:integer;
+                          var value3:integer; var value4:integer;
+                          var value5:integer; var value6:integer;
+                          var value7:integer; var value8:integer);
+
+//------------------------------------------------------------------------------
            ////////Url Functions////////
 //------------------------------------------------------------------------------
 
@@ -89,6 +108,7 @@ Function MatCompareFile2Stream(mmstrem:TMemoryStream;filename:String):Boolean;
 //------------------------------------------------------------------------------
 //Function executeApplication(FileName:String):Boolean; Overload
 //Function executeApplicationzz(ProgramName, Paramaters : String; Wait: Boolean):Boolean;
+Function exeAppBor(ProgramName  : String; Paramaters:String=''; Wait: Boolean=False;UseProgramDir:Boolean=false):Boolean;
 Function exeApp2(ProgramName  : String):Boolean; overload;
 Function exeApp(ProgramName  : String; Paramaters:String=''; Wait: Boolean=False;UseProgramDir:Boolean=false):Boolean; overload;
 
@@ -128,9 +148,9 @@ Procedure odSetExtension(oDialog:TJvOpenDialog;ext:WideString;extDescription:Wid
 //------------------------------------------------------------------------------
 Function isValidBitmap(aFileName:String):Boolean;
 Procedure pcSetFont(pController:TJvPageControl;newFont:TFont);
-procedure centreFisrtInsideSecond(var innerPanel:TPanel; outerObject:TObject); Overload;
-procedure centreFisrtInsideSecond(var innerPanel:TjvPanel; outerObject:TObject; top:integer=0); Overload;
-procedure centreFisrtInsideSecond(var innerMemo:TTntMemo; outerObject:TObject); Overload;
+procedure centreFisrtInsideSecond(var innerPanel:TPanel; outerObject:TObject; innersubheight:integer = 0); Overload;
+procedure centreFisrtInsideSecond(var innerPanel:TjvPanel; outerObject:TObject; top:integer=0; innersubheight:integer=0); Overload;
+procedure centreFisrtInsideSecond(var innerMemo:TTntMemo; outerObject:TObject; innersubheight:integer=0); Overload;
 //------------------------------------------------------------------------------
           ////////Dates////////
 //------------------------------------------------------------------------------
@@ -805,6 +825,10 @@ Var
   TmpStr01        :String;
 Begin
  Try
+   if FileList = nil then
+     FileList := TStringList.Create;
+   if DirList = nil then
+     DirList := TStringList.Create;
    //Sort File/Dir list and don't allow duplicates
     If FileList.Sorted = False then
      Begin
@@ -1652,7 +1676,7 @@ Begin
   End;
 End;
 
-procedure centreFisrtInsideSecond(var innerPanel:TPanel; outerObject:TObject);
+procedure centreFisrtInsideSecond(var innerPanel:TPanel; outerObject:TObject;innersubheight:integer = 0);
 Var
   outerTop, outerLeft, outerWidth, outerHeight : Integer;
   innerTop, innerLeft, innerWidth, innerHeight : Integer;
@@ -1682,14 +1706,15 @@ Begin
     outerWidth := (outerObject as TJvFormWallpaper).Width;
     outerHeight := (outerObject as TJvFormWallpaper).Height;
   End;
-
+  if innersubheight > 0 then
+    innerPanel.Height := outerHeight - innersubheight;
   innerPanel.Top :=  (outerHeight div 2) - (innerPanel.Height div 2);
   innerPanel.Left := (outerWidth div 2) - (innerPanel.Width div 2);
 
 
 End;
 
-procedure centreFisrtInsideSecond(var innerPanel:TjvPanel; outerObject:TObject; top:integer); Overload;
+procedure centreFisrtInsideSecond(var innerPanel:TjvPanel; outerObject:TObject; top:integer; innersubheight:integer); Overload;
 Var
   outerTop, outerLeft, outerWidth, outerHeight : Integer;
   innerTop, innerLeft, innerWidth, innerHeight : Integer;
@@ -1719,6 +1744,9 @@ Begin
     outerWidth := (outerObject as TJvFormWallpaper).Width;
     outerHeight := (outerObject as TJvFormWallpaper).Height;
   End;
+
+  if innersubheight > 0 then
+    innerPanel.Height := outerHeight - innersubheight;
 
   innerPanel.Top :=  (outerHeight div 2) - (innerPanel.Height div 2) + top;
   innerPanel.Left := (outerWidth div 2) - (innerPanel.Width div 2);
@@ -1726,7 +1754,7 @@ Begin
 
 End;
 
-procedure centreFisrtInsideSecond(var innerMemo:TTntMemo; outerObject:TObject); Overload;
+procedure centreFisrtInsideSecond(var innerMemo:TTntMemo; outerObject:TObject;innersubheight:integer); Overload;
 Var
   outerTop, outerLeft, outerWidth, outerHeight : Integer;
   innerTop, innerLeft, innerWidth, innerHeight : Integer;
@@ -1750,6 +1778,9 @@ Begin
     outerWidth := (outerObject as TPanel).Width;
     outerHeight := (outerObject as TPanel).Height;
   End;
+
+  if innersubheight > 0 then
+    innerMemo.Height := outerHeight - innersubheight;
 
   innerMemo.Top :=  (outerHeight div 2) - (innerMemo.Height div 2);
   innerMemo.Left := (outerWidth div 2) - (innerMemo.Width div 2);
@@ -1791,6 +1822,64 @@ begin
   Result := CreateOK;
 end;}
 
+Function exeAppBor(ProgramName  : String; Paramaters:String=''; Wait: Boolean=False;UseProgramDir:Boolean=false):Boolean;
+Var
+  StartInfo : TStartupInfo;
+  ProcInfo : TProcessInformation;
+  handle : THandle;
+  CreateOK : Boolean;
+  ab : Cardinal;
+  s : String;
+begin
+    // fill with known state
+  FillChar(StartInfo,SizeOf(TStartupInfo),#0);
+  FillChar(ProcInfo,SizeOf(TProcessInformation),#0);
+  StartInfo.cb := SizeOf(TStartupInfo);
+  if UseProgramDir = false then
+  if Paramaters = '' then Begin
+    ShellExecute(0, nil, PChar(ProgramName), nil, nil, SW_SHOW);
+    {CreateOK := CreateProcess(handle, PChar(ProgramName), nil, nil,False,
+              CREATE_NEW_PROCESS_GROUP+NORMAL_PRIORITY_CLASS,
+              nil, nil, StartInfo, ProcInfo);}
+  end Else Begin
+    s := ProgramName + ' ' + Paramaters;
+    ShellExecute(handle, nil,
+                 pchar(ProgramName),
+                 pchar(Paramaters),
+                 pchar(ExtractFileDir(ProgramName)), SW_SHOWNORMAL);
+  end;
+    if UseProgramDir = true then
+      CreateOK := CreateProcess(pChar(ProgramName), PChar(Paramaters), nil, nil,False,
+              CREATE_NEW_PROCESS_GROUP+NORMAL_PRIORITY_CLASS,
+              nil,
+              pchar(ExtractFileDir(ProgramName)), StartInfo, ProcInfo)
+    else
+      CreateOK := CreateProcess(pChar(ProgramName), PChar(Paramaters), nil, nil,False,
+              CREATE_NEW_PROCESS_GROUP+NORMAL_PRIORITY_CLASS,
+              nil,
+              nil, StartInfo, ProcInfo);
+  //End;
+    // check to see if successful
+  {if CreateOK then
+    begin
+        //may or may not be needed. Usually wait for child processes
+      if Wait then Begin
+        ab := WaitForSingleObject(ProcInfo.hProcess, INFINITE);
+        while ab > 0 do
+          ab := WaitForSingleObject(ProcInfo.hProcess, INFINITE);
+      end;
+    end
+  else
+    begin
+      //ShowMessage('Unable to run '+ProgramName);
+     end;}
+
+  CloseHandle(ProcInfo.hProcess);
+  CloseHandle(ProcInfo.hThread);
+  Application.ProcessMessages;
+  Result := CreateOK;
+End;
+
 Function exeApp2(ProgramName  : String):Boolean; overload;
 Begin
   ShellExecute(0, nil, PChar(ProgramName), nil, nil, SW_SHOW);
@@ -1809,6 +1898,7 @@ begin
   FillChar(StartInfo,SizeOf(TStartupInfo),#0);
   FillChar(ProcInfo,SizeOf(TProcessInformation),#0);
   StartInfo.cb := SizeOf(TStartupInfo);
+  if UseProgramDir = false then
   if Paramaters = '' then Begin
     ShellExecute(0, nil, PChar(ProgramName), nil, nil, SW_SHOW);
     {CreateOK := CreateProcess(handle, PChar(ProgramName), nil, nil,False,
@@ -1820,8 +1910,8 @@ begin
                  pchar(ProgramName),
                  pchar(Paramaters),
                  pchar(ExtractFileDir(ProgramName)), SW_SHOWNORMAL);
-  end;               
-    {if UseProgramDir = true then
+  end;
+    if UseProgramDir = true then
       CreateOK := CreateProcess(pChar(ProgramName), PChar(Paramaters), nil, nil,False,
               CREATE_NEW_PROCESS_GROUP+NORMAL_PRIORITY_CLASS,
               nil,
@@ -1830,7 +1920,7 @@ begin
       CreateOK := CreateProcess(pChar(ProgramName), PChar(Paramaters), nil, nil,False,
               CREATE_NEW_PROCESS_GROUP+NORMAL_PRIORITY_CLASS,
               nil,
-              nil, StartInfo, ProcInfo);}
+              nil, StartInfo, ProcInfo);
   //End;
     // check to see if successful
   {if CreateOK then
@@ -2034,6 +2124,158 @@ begin
      else
        Result := '';
    end;
+end;
+
+procedure stripStringTwoInteger(s:string;var value1:integer; var value2:integer);
+Var
+  s1:string;
+begin
+  MatStringDeleteUp2(s,' ');
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  MatStringDelete2End(s, ' ');
+  value1 := StrToInt(s1);
+  value2 := StrToInt(s);
+end;
+
+procedure stripStringSixInteger(s:string;
+                          var value1:integer; var value2:integer;
+                          var value3:integer; var value4:integer;
+                          var value5:integer; var value6:integer);
+Var
+  s1 : string;
+Begin
+  MatStringDeleteUp2(s,' ');
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value1 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value2 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value3 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value4 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value5 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  MatStringDelete2End(s1, ' ');
+  value6 := StrToInt(s1);
+
+end;
+
+procedure stripStringSevenInteger(s:string;
+                          var value1:integer; var value2:integer;
+                          var value3:integer; var value4:integer;
+                          var value5:integer; var value6:integer;
+                          var value7:integer);
+Var
+  s1 : string;
+Begin
+  MatStringDeleteUp2(s,' ');
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value1 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value2 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value3 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value4 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value5 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value6 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  MatStringDelete2End(s1, ' ');
+  value7 := StrToInt(s1);
+
+end;
+
+procedure stripStringEightInteger(s:string;
+                          var value1:integer; var value2:integer;
+                          var value3:integer; var value4:integer;
+                          var value5:integer; var value6:integer;
+                          var value7:integer; var value8:integer);
+Var
+  s1 : string;
+Begin
+  MatStringDeleteUp2(s,' ');
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value1 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value2 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value3 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value4 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value5 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value6 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value7 := StrToInt(s1);
+
+  s1 := s;
+  MatStringDelete2End(s1,' ');
+  MatStringDeleteUp2(s,' ');
+  value8 := StrToInt(s1);
+
 end;
 
 End.
