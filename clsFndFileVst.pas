@@ -39,6 +39,7 @@ type
     xmlIncluded : Boolean;
   public
     { Public declarations }
+    destructor destroy; override;
     constructor Create(vTree:TVirtualStringTree;includeXml:Boolean=false); Overload;
     //Xml Functions
     procedure setXmlStatus(include:Boolean); Overload;
@@ -61,6 +62,13 @@ type
     function clearFndFilerData(rData:rFndFile):rFndFile; Overload;}
   end;
 implementation
+
+destructor TclsFndFileVst.destroy;
+begin
+   if(assigned(fTree)) then FreeAndNil(fTree);
+   inherited destroy;
+end;
+
 constructor TclsFndFileVst.Create(vTree: TVirtualStringTree;includeXml:Boolean);
 begin
   fTree := vTree;
