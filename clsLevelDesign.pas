@@ -72,12 +72,27 @@ type
     function ordercount:integer;
     function getPanelByLetter(letter:string):string;
     constructor create(LevelDesignfile:string);
+    destructor Destroy; override;
     procedure refresh(aList:TStringList);
   end;
 
 implementation
 
 { TLevelDesign }
+
+destructor TLevelDesign.Destroy();
+begin
+  FreeAndNil(LevelDesignfileList);
+  FreeAndNil(FrontPanelListing);
+  FreeAndNil(backGroundList);
+  FreeAndNil(frontPanelList);
+  FreeAndNil(panelList);
+  FreeAndNil(spawnList);
+  FreeAndNil(atList);
+  FreeAndNil(wallsList);
+  FreeAndNil(holesList);
+  //inherited Destroy;
+end;
 
 constructor TLevelDesign.create(LevelDesignfile: string);
 begin
