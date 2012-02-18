@@ -101,7 +101,7 @@ begin
   systemEditor.formCreate;
    treeEditorVst := TclsopenBorSystemVst.Create(vstopenBorSystemList,ses.borSys);
   returnValues := TStringList.Create;
-  vstopenBorSystemList := treeVisuals(vstopenBorSystemList);
+  treeVisuals(vstopenBorSystemList);
 end;
 
 procedure TfrmSystemEditor.populateData(rData: ropenBorSystem;
@@ -175,74 +175,40 @@ begin
   end;
 end;
 
+const titles : array [0 .. 9] of string = (
+  'Entity Header',
+  'Entity Anim Types',
+  'Entity Anim Data',
+  'Models',
+  'Level Header',
+  'Level Sets',
+  'Level Design',
+  'Level Objects',
+  'Script Functions',
+  'Script Animation'
+);
+
 procedure TfrmSystemEditor.populateEditTree;
 Var
   i : integer;
   rData : ropenBorSystem;
   groupNode : PVirtualNode;
+  tempList: tstringlist;
+
 begin
   //Add Root Nodes
   vstopenBorSystemList.clear;
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Entity Header';
-  rData.htyp := 0;
-  pEntityHeader := nil;
-  pEntityHeader := treeEditorVst.addopenBorSystemNode(rData,nil,false);
-  form1.addSubGroupsEntity(pEntityHeader,ses.borSys.getGroupList(0),1,treeEditorVst);
-  //Enitity Anim Types
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Entity Anim Types';
-  rData.htyp := 1;
-  pEntityAnimTypes := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(pEntityAnimTypes,ses.borSys.getGroupList(1),1,treeEditorVst);
-  //Entity Anim Data
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Entity Anim Data';
-  rData.htyp := 2;
-  pEntityAnimData := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(pEntityAnimData,ses.borSys.getGroupList(2),1,treeEditorVst);
-  //Models
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Models';
-  rData.htyp := 3;
-  nodeModels := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeModels,ses.borSys.getGroupList(3),1,treeEditorVst);
-  //Level Header
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Level Header';
-  rData.htyp := 4;
-  nodeLevelHeader := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeLevelHeader,ses.borSys.getGroupList(4),1,treeEditorVst);
-  //Level Sets
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Level Sets';
-  rData.htyp := 5;
-  nodeLevelSets := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeLevelSets,ses.borSys.getGroupList(5),1,treeEditorVst);
-  //Level Design
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Level Design';
-  rData.htyp := 6;
-  nodeLevelDesign := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeLevelDesign,ses.borSys.getGroupList(6),1,treeEditorVst);
-  //Level Objects
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Level Objects';
-  rData.htyp := 7;
-  nodeLevelObjects := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeLevelObjects,ses.borSys.getGroupList(7),1,treeEditorVst);
-  //Functions
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Script Functions';
-  rData.htyp := 8;
-  nodeFunctions := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeFunctions,ses.borSys.getGroupList(8),1,treeEditorVst);
-  //Animation Script
-  rData := ses.borSys.clearopenBorSystemrData(rdata);
-  rData.title := 'Script Animation';
-  rData.htyp := 9;
-  nodeAnimationScript := treeEditorVst.addopenBorSystemNode(rData,nil);
-  form1.addSubGroupsEntity(nodeAnimationScript,ses.borSys.getGroupList(9),1,treeEditorVst);
+  for i := 0 to 9 do begin
+    rData := ses.borSys.clearopenBorSystemrData(rdata);
+    rData.title := titles[i];
+    rData.htyp := i;
+    pEntityHeader := nil;
+    pEntityHeader := treeEditorVst.addopenBorSystemNode(rData,nil,false);
+    templist := ses.borSys.getGroupList(i);
+    form1.addSubGroupsEntity(pEntityHeader,templist,1,treeEditorVst);
+    freeAndNil(templist);
+  end;
+
   //Populate data from xml to type
   for i := 0 to ses.borSys.fopenBorSystem.Count -1 do Begin
     rData := ses.borSys.getopenBorSystemData(i);

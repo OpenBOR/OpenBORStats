@@ -59,7 +59,7 @@ end;}
   function strClearEnd(sCurrentLine:String):String;
   function strClearAll(sCurrentLine:String):String;
 
-  function treeVisuals(tree:TVirtualStringTree):TVirtualStringTree;
+  procedure treeVisuals(tree:TVirtualStringTree);
   function CreateGuid : String;
   function borFile2File(borFileName:string):string;
   function File2BorFile(FileName:string):string;
@@ -201,18 +201,24 @@ begin
   End;
 end;
 
-function treeVisuals(tree:TVirtualStringTree):TVirtualStringTree;
+procedure treeVisuals(tree:TVirtualStringTree);
 Var
   Image : TBitmap;
   aStream : TMemoryStream;
+  tmp : string;
 Begin
-  if FileExists(ses.localDir + '\Res\Bck.bmp') then Begin
+  tmp := ses.localDir + '\Res\Bck.bmp';
+  if FileExists(tmp) then Begin
     {if tree.Background <> nil then
       exit;}
     Randomize;
 
     Image := TBitmap.Create;
-    Image.LoadFromFile(ses.localDir + '\Res\Bck.bmp');
+    tmp := ses.localDir + '\Res\Bck.bmp';
+    Image.LoadFromFile(tmp);
+    if(assigned(tree.Background.Graphic)) then begin
+      (tree.background.graphic as TBitmap).free;
+    end;  
     tree.Background.Graphic := Image;
     //tree.Background.Graphic.LoadFromFile(ses.localDir + '\Res\Bck.bmp');
     //tree.Background.LoadFromFile(ses.localDir + '\Res\Bck.bmp');
@@ -221,7 +227,6 @@ Begin
     tree.BackgroundOffsetY := random(300);
     tree.TreeOptions.PaintOptions := tree.TreeOptions.PaintOptions + [toShowBackground];
   end;
-  Result := tree;
 end;
 
 function CreateGuid : String;
@@ -458,80 +463,26 @@ Var
 Begin
   found := false;
   sCurrentLine := strClearAll(sCurrentLine);
-  if PosStr('@cmd',sCurrentLine) > 0 then
+  if PosStr('@cmd',sCurrentLine) = 1 then
     found := false
   else
-  if PosStr('blast',sCurrentLine) > 0 then Begin
+  if PosStr('blast',sCurrentLine) = 1 then Begin
     found := true;
-    if PosStr('ani_blast',sCurrentLine) > 0 then
-      found := false;
   end else
-  if PosStr('freeze',sCurrentLine) > 0 then Begin
+  if PosStr('freeze',sCurrentLine) = 1 then Begin
     found := true;
-    if PosStr('ani_freeze',sCurrentLine) > 0 then
-      found := false;
   end else
-  if PosStr('burn',sCurrentLine) > 0 then Begin
+  if PosStr('burn',sCurrentLine) = 1 then Begin
     found := true;
-    if PosStr('ani_burn',sCurrentLine) > 0 then
-      found := false;
   end else
-  if PosStr('shock',sCurrentLine) > 0 then Begin
+  if PosStr('shock',sCurrentLine) = 1 then Begin
     found := true;
-    if PosStr('ani_shock',sCurrentLine) > 0 then
-      found := false;
   end else
-  if PosStr('steal',sCurrentLine) > 0 then Begin
+  if PosStr('steal',sCurrentLine) = 1 then Begin
     found := true;
-    if PosStr('ani_steal',sCurrentLine) > 0 then
-      found := false;
   end else
-  if PosStr('attack',sCurrentLine) > 0 then Begin
+  if PosStr('attack',sCurrentLine) = 1 then Begin
     found := true;
-
-    if PosStr('@cmd',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('maxattacks',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('maxattacktypes',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('runattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('runjumpattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('chargeattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('attackboth',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('jumpattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('attackup',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('attackdown',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('attackforward',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('attackbackward',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('grabattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('riseattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('fastattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('attackone',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('counterattack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('ani_attack',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('performattack',sCurrentLine) > 0 then
-      found := false;
-    //Additional possibilities
-    if PosStr('sound',sCurrentLine) > 0 then
-      found := false;
-    if PosStr('frame',sCurrentLine) > 0 then
-      found := false;
   end;
   if PosStr('data/',sCurrentLine) > 0 then
      found := false;

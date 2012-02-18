@@ -110,6 +110,7 @@ type
     procedure formStartup(listData:TStringList;mode:Integer;zEntityDetails:TEntityDetails;zsectionedMode:Integer=0); Overload;
     procedure formClear;
     procedure setSectionMode(iMode:integer);
+    procedure formDestroy;
   end;
 
 implementation
@@ -119,6 +120,21 @@ uses formSystemEditor, formCharacterEditor, unMain;
 {$R *.dfm}
 
 { TfrmEditorSyn }
+
+procedure TfrmEditorSyn.formDestroy;
+begin
+(*    mediaFrame : TfrmGifList;
+    treeEditorVst : TclsopenBorSystemVst;
+    aSyn : TSynUniSyn;
+    entityDetails : TEntityDetails;
+    nodeEntityHeader, nodeEntityAnimTypes, nodeEntityAnimData,
+    nodeModels, nodeLevelHeader, nodeLevelSets, nodeLevelDesign,
+    nodeLevelObjects, nodeFunctions : PVirtualNode; *)
+    if(assigned(mediaFrame)) then freeAndNil(mediaFrame);
+    if(assigned(treeEditorVst)) then freeAndNil(treeEditorVst);
+    if(assigned(entitydetails)) then freeAndNil(entityDetails);
+    if(assigned(aSyn)) then freeAndNil(asyn);
+end;
 
 function TfrmEditorSyn.editorGetCommandFromEdit(cmdName: String): String;
 Var
@@ -300,7 +316,7 @@ begin
     aSyn := TSynUniSyn.Create(SynEdit1);
     loadHighlighter('Text Files');
     populateEditorTree;
-    vstEditor := treeVisuals(vstEditor);
+    treeVisuals(vstEditor);
 
     mediaFrame := TfrmGifList.Create(sbGifList);
     mediaFrame.Parent := sbGifList;

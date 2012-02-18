@@ -534,7 +534,7 @@ begin
   frameEditor.Parent := pnlEditor;
   frameEditor.Align := alClient;
   frameEditor.formCreate;
-  vstAnimList := treeVisuals(vstAnimList);
+  treeVisuals(vstAnimList);
 
   //populateEditorTree;
 
