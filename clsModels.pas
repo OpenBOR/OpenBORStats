@@ -36,11 +36,19 @@ type
     procedure JvThread1Execute(Sender: TObject; Params: Pointer);
     function getEntityTypeList:TStringList; overload;
     constructor create(zmodelsFile:String);
+    destructor destroy; override;
 end;
 implementation
 uses
   unMain, unCommon;
 { TLevelsData }
+
+destructor TModelssData.destroy;
+begin
+   if(assigned(modelsHeader)) then freeAndNil(modelsHeader);
+   if(assigned(listEntities)) then FreeAndNil(listEntities);
+   if(assigned(modelsFile)) then FreeAndNil(modelsFile);
+end;
 
 constructor TModelssData.create(zmodelsFile:String);
 
@@ -226,10 +234,12 @@ function TModelssData.populateEntityDetails(
   aData: TModelsData): TModelsData;
 var
   athread : TJvThread;
+  temp: tEntityDetails;
 begin
   if FileExists(ses.dataDirecotry + '\' + aData.entFile) then Begin
-
-    aData.entityModel := aData.entityModel.loadEntitryDetails(ses.dataDirecotry + '\' + aData.entFile);
+    temp := aData.entityModel.loadEntitryDetails(ses.dataDirecotry + '\' + aData.entFile);
+    freeAndNil(adata.entityModel);
+    aData.entityModel := temp;
   end;
   Result := aData;
 end;
