@@ -611,95 +611,101 @@ Begin
   //end;
 end;
 
-procedure TfrmHudDesign.populateFromFile;
+const playerCommands : array [0..11] of string = (
+  'p%dicon',
+  'p%dmp',
+  'p%dlife',
+  'p%dlifex',
+  'p%dlifen',
+  'mp%dicon',
+  'e%dicon',
+  'e%dname',
+  'e%dlife',
+  'e%dnamej',
+  'p%dscore',
+  'p%drush'
+);
+
+type
+  TSpinArr = array [0..7] of pointer;
+  TTargetSpinEdits = array [0..11] of TSpinArr;
+var
+  targetSpinEdits : TTargetSpinEdits = (
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil),
+    (nil,nil,nil,nil,nil,nil,nil,nil)
+  );
+
+function hardcodeSpinArr(const input: array of TJvSpinEdit): TSpinArr;
+var
+  i: Integer;
+begin
+  assert(High(input) < 8);
+  for i := 0 to High(input) do
+    Result[i] := input[i];
+  for i := High(input) + 1 to 7 do
+    Result[i] := nil;
+end;
+
+procedure fillTargetSpinEdits;
 var
   i : integer;
-  s, s2 : string;
-  i1, i2, i3, i4, i5, i6, i7, i8 :integer;
 begin
-  s2 := IntToStr(cbPlayer.ItemIndex +1);
+  i := -1;
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.sex, frmHudDesign.sey]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jePlayerMpX, frmHudDesign.jePlayerMpY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jePlayerHealthX, frmHudDesign.jePlayerHealthY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jePlayerxValueX, frmHudDesign.jePlayerxValueY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jePlayerLeftX, frmHudDesign.jePlayerLeftX]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jeMpIconX, frmHudDesign.jeMpIconY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jeEnemyIconX, frmHudDesign.jeEnemyIconY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jeNameX, frmHudDesign.jeNameY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jeEnemyLifeX, frmHudDesign.jeEnemyLifeY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jeNameJX, frmHudDesign.jeNameJY, frmHudDesign.jeSelectPlayerX, frmHudDesign.jeSelectPlayerY, frmHudDesign.jePressPlayerX, frmHudDesign.jePressPlayerY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jvNameX, frmHudDesign.jvNameY, frmHudDesign.jvDashX, frmHudDesign.jvDashY, frmHudDesign.jeScoreX, frmHudDesign.jeScoreY]);
+  inc(i); targetSpinEdits[i] := hardcodeSpinArr([frmHudDesign.jvRushNowX, frmHudDesign.jvRushNowY, frmHudDesign.jvRushnValueX, frmHudDesign.jvRushnValueY, frmHudDesign.jvRushMaxX, frmHudDesign.jvRushMaxY, frmHudDesign.jvRushmValueX, frmHudDesign.jvRushmValueY]);
+end;
+
+procedure TfrmHudDesign.populateFromFile;
+var
+  i, j, x : integer;
+  int8 : TIntArr8;
+  res : integer;
+  player: integer;
+  testcommand, command: string;
+begin
   if Form1.Levels = nil then exit;
+
+  player := cbPlayer.ItemIndex + 1;
+  fillTargetSpinEdits;
+
   for i := 0 to Form1.Levels.LevelsFile.Count -1 do Begin
-    s := strClearAll(Form1.Levels.LevelsFile.Strings[i]);
-    if (Pos('p'+s2+'icon ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      sex.asinteger := i1;
-      sey.asinteger := i2;
-    end;
-    if (Pos('p'+s2+'mp ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jePlayerMpX.asinteger := i1;
-      jePlayerMpY.asinteger := i2;
-    end;
-    if (Pos('p'+s2+'life ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jePlayerHealthX.asinteger := i1;
-      jePlayerHealthY.asinteger := i2;
-    end;
-    if (Pos('p'+s2+'lifex ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jePlayerxValueX.asinteger := i1;
-      jePlayerxValueY.asinteger := i2;
-    end;
-    if (Pos('p'+s2+'lifen ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jePlayerLeftX.asinteger := i1;
-      jePlayerLeftY.asinteger := i2;
+    command := getBORCommand(Form1.Levels.LevelsFile.Strings[i]);
+    if(length(command) = 0) then continue;
+    for j := 0 to high(playerCommands) do begin
+       testcommand := format(playerCommands[j], [player]);
+       if(command = testcommand) then begin
+         res := stripStringIntegers(Form1.Levels.LevelsFile.Strings[i], int8);
+         x := 0;
+         while ((x < 8) and (nil <> targetSpinEdits[j][x])) do begin
+           if(x >= res) then
+             break;
+           TJvSpinEdit(targetSpinEdits[j][x]).AsInteger := int8[x];
+           inc(x);
+         end;
+         break;
+       end;
     end;
 
-    if (Pos('mp'+s2+'icon ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jeMpIconX.asinteger := i1;
-      jeMpIconY.asinteger := i2;
-    end;
-
-    if (Pos('e'+s2+'icon ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jeEnemyIconX.asinteger := i1;
-      jeEnemyIconY.asinteger := i2;
-    end;
-    if (Pos('e'+s2+'name ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jeNameX.asinteger := i1;
-      jeNameY.asinteger := i2;
-    end;
-    if (Pos('e'+s2+'life ',s) > 0 ) then Begin
-      stripStringTwoInteger(s,i1,i2);
-      jeEnemyLifeX.asinteger := i1;
-      jeEnemyLifeY.asinteger := i2;
-    end;
-
-    if (Pos('p'+s2+'namej ',s) > 0 ) then Begin
-      stripStringSixInteger(s,i1,i2,i3,i4,i5,i6);
-      jeNameJX.asinteger := i1;
-      jeNameJY.asinteger := i2;
-      jeSelectPlayerX.asinteger := i3;
-      jeSelectPlayerY.asinteger := i4;
-      jePressPlayerX.asinteger := i5;
-      jePressPlayerY.asinteger := i6;
-    end;
-
-    if (Pos('p'+s2+'score ',s) > 0 ) then Begin
-      stripStringSevenInteger(s,i1,i2,i3,i4,i5,i6,i7);
-      jvNameX.asinteger := i1;
-      jvNameY.asinteger := i2;
-      jvDashX.asinteger := i3;
-      jvDashY.asinteger := i4;
-      jeScoreX.asinteger := i5;
-      jeScoreY.asinteger := i6;
-    end;
-
-    if (Pos('p'+s2+'rush ',s) > 0 ) then Begin
-      stripStringEightInteger(s,i1,i2,i3,i4,i5,i6,i7,i8);
-      jvRushNowX.asinteger := i1;
-      jvRushNowY.asinteger := i2;
-      jvRushnValueX.asinteger := i3;
-      jvRushnValueY.asinteger := i4;
-      jvRushMaxX.asinteger := i5;
-      jvRushMaxY.asinteger := i6;
-      jvRushmValueX.asinteger := i7;
-      jvRushmValueY.asinteger := i8;
-    end;
     {
 
       -p1icon 2 2
