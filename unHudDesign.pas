@@ -611,27 +611,6 @@ Begin
   //end;
 end;
 
-procedure stripStringTwoInteger(s: string; i1, i2:integer);
-begin
-    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
-end;
-
-procedure stripStringSixInteger(s: string; i1, i2, i3, i4, i5, i6:integer);
-begin
-    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
-end;
-
-procedure stripStringSevenInteger(s: string; i1, i2, i3, i4, i5, i6, i7:integer);
-begin
-    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
-end;
-
-procedure stripStringEightInteger(s: string; i1, i2, i3, i4, i5, i6, i7, i8:integer);
-begin
-    showmessage(s + ' ' + IntToStr(i1) + ' ' + IntToStr(i2));
-end;
-
-
 procedure TfrmHudDesign.populateFromFile;
 var
   i : integer;
