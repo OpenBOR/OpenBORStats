@@ -70,7 +70,7 @@ Type
     Function loadFromZip:aXmlopenBorSystem;}
     Function verifyXml(aFileName:String):Boolean;
     constructor Create(xmlFile:String); Overload;
-    //Destructor Destroy;
+    Destructor Destroy; override;
   end;
 implementation
 uses SysUtils, XMLIntf, unCommon;
@@ -508,10 +508,11 @@ begin
     fopenBorSystem := NewTopenBorSystemList;
   Modified := False;
 end;
-{destructor aXmlopenBorSystem.Destroy;
+destructor aXmlopenBorSystem.Destroy;
 begin
-  inherited;
-end;}
+
+  inherited Destroy;
+end;
 function aXmlopenBorSystem.SavetoFile(xmlFile:String): Boolean;
 Var
   aList : TStringList;
