@@ -12,6 +12,9 @@ uses
 
 type
   PHICON = ^HICON;
+
+  TIntArr8 = array [0..7] of integer;
+
 //------------------------------------------------------------------------------
           ////////Procedures that use's basic units////////
 //------------------------------------------------------------------------------
@@ -69,21 +72,8 @@ function GetCharFromVirtualKey(Key: Word): string;
 //------------------------------------------------------------------------------
            ////////Strip Procedures////////
 //------------------------------------------------------------------------------
-procedure stripStringTwoInteger(s:string;var value1:integer; var value2:integer);
-procedure stripStringSixInteger(s:string;
-                          var value1:integer; var value2:integer;
-                          var value3:integer; var value4:integer;
-                          var value5:integer; var value6:integer);
-procedure stripStringSevenInteger(s:string;
-                          var value1:integer; var value2:integer;
-                          var value3:integer; var value4:integer;
-                          var value5:integer; var value6:integer;
-                          var value7:integer);
-procedure stripStringEightInteger(s:string;
-                          var value1:integer; var value2:integer;
-                          var value3:integer; var value4:integer;
-                          var value5:integer; var value6:integer;
-                          var value7:integer; var value8:integer);
+function stripStringIntegers(s:string; var intarr: TIntArr8):integer;
+function getBORCommand(borline : string):string;
 
 //------------------------------------------------------------------------------
            ////////Url Functions////////
@@ -2126,156 +2116,88 @@ begin
    end;
 end;
 
-procedure stripStringTwoInteger(s:string;var value1:integer; var value2:integer);
-Var
-  s1:string;
+
+// returns the command in a bor "statement" as lowercase
+// e.g: '     aTTaCk'#9'   '134   545'    -> 'attack'
+function getBORCommand(borline : string):string;
+var
+  i, l : integeR;
+  s : string;
 begin
-  MatStringDeleteUp2(s,' ');
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  MatStringDelete2End(s, ' ');
-  value1 := StrToInt(s1);
-  value2 := StrToInt(s);
+  s := lowercase(borline);
+  s := trim(sysutils.stringreplace(s, #9 , ' ', [rfReplaceAll]));
+  i := 0; l := length(s);
+  while(i < l) do begin
+    if s[i + 1] = ' ' then begin
+      result := copy(s, 1, i + 1);
+      exit;
+    end;
+    inc(i);
+  end;
+  if(i > 0) then result := copy(s, 1, i + 1)
+  else result := '';
 end;
 
-procedure stripStringSixInteger(s:string;
-                          var value1:integer; var value2:integer;
-                          var value3:integer; var value4:integer;
-                          var value5:integer; var value6:integer);
-Var
-  s1 : string;
-Begin
-  MatStringDeleteUp2(s,' ');
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value1 := StrToInt(s1);
 
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value2 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value3 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value4 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value5 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  MatStringDelete2End(s1, ' ');
-  value6 := StrToInt(s1);
-
-end;
-
-procedure stripStringSevenInteger(s:string;
-                          var value1:integer; var value2:integer;
-                          var value3:integer; var value4:integer;
-                          var value5:integer; var value6:integer;
-                          var value7:integer);
-Var
-  s1 : string;
-Begin
-  MatStringDeleteUp2(s,' ');
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value1 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value2 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value3 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value4 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value5 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value6 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  MatStringDelete2End(s1, ' ');
-  value7 := StrToInt(s1);
-
-end;
-
-procedure stripStringEightInteger(s:string;
-                          var value1:integer; var value2:integer;
-                          var value3:integer; var value4:integer;
-                          var value5:integer; var value6:integer;
-                          var value7:integer; var value8:integer);
-Var
-  s1 : string;
-Begin
-  MatStringDeleteUp2(s,' ');
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value1 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value2 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value3 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value4 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value5 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value6 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value7 := StrToInt(s1);
-
-  s1 := s;
-  MatStringDelete2End(s1,' ');
-  MatStringDeleteUp2(s,' ');
-  value8 := StrToInt(s1);
-
+// returns the number of integers found.
+function stripStringIntegers(s:string; var intarr: TIntArr8):integer;
+var
+  p, intstart, stringstart : pchar;
+  l : integer;
+  temp: string;
+  label addint;
+begin
+  result := 0;
+  l := length(s);
+  stringstart := @s[1];
+  p := stringstart;
+  intstart := nil;
+  // skip leading whitespace:
+  while(l > 0) do begin
+      case p^ of
+         #9, ' ', #13, #10:
+         begin
+           inc(p);
+           dec(l);
+         end;
+         '#': exit;
+      else break;
+      end;
+  end;
+  //skip first "word"
+  while(l > 0) do begin
+      case p^ of
+         'A' .. 'Z', 'a' .. 'z', '0'..'9':
+         begin
+           inc(p);
+           dec(l);
+         end;
+         '#': exit;
+      else break;
+      end;
+  end;
+  // now find the ints..
+  while(l > 0) do begin
+      case p^ of
+         #9, ' ', #13, #10, '#': begin
+           addint:
+           if(intstart <> nil) then begin
+             if(result >= (sizeof(TIntArr8) / sizeof(intarr[0]))) then exit;
+             // TODO the string allocation is costly, write a custom strtoint working on pchars
+             temp := copy(s, 1 + cardinal(intstart) - cardinal(stringstart), cardinal(p) - cardinal(intstart));
+             intarr[result] := strtoint(temp);
+             inc(result);
+           end;
+           intstart := nil;
+           if p^ = '#' then exit;
+         end;
+         '0' .. '9':
+           if not assigned(intstart) then intstart := p;
+      end;
+      dec(l);
+      inc(p);
+  end;
+  if intstart <> nil then goto addint;
 end;
 
 End.
