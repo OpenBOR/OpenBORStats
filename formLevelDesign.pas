@@ -83,6 +83,7 @@ type
     procedure Image1MouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure btnWallCalcClick(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
 
 
 
@@ -988,6 +989,16 @@ end;
 procedure TfrmLevelDesign.btnWallCalcClick(Sender: TObject);
 begin
     frmWallCalc.Show;
+end;
+
+procedure TfrmLevelDesign.FormDestroy(Sender: TObject);
+begin
+  if(assigned(frameEditor)) then begin
+      frameEditor.formDestroy;
+      freeAndNil(frameEditor);
+  end;
+  if assigned(ses.currentLeveldesign) then
+    FreeAndNil(ses.currentLeveldesign);
 end;
 
 end.
