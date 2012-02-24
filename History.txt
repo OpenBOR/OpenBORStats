@@ -1,3 +1,12 @@
+V0.53
+-----
+Few memory leaks fixed. (Thanx to StrongARM)
+Added a Wall calculator in the level editor, although I got no ideas how it works. (Thanx to StrongARM)
+
+V0.52
+-----
+Number change.....mmm not so impressive.
+
 V0.51
 -----
 Fixed another Bug that would associate directories/files/scripts that where called attack,burn,shock etc... and would be considered as a attack.
